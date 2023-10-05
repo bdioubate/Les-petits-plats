@@ -10,7 +10,7 @@ export default class recipeSectionTemplate{
     }
 
     get image() {
-        return `/assets/recipes/${this._image}`
+        return `./assets/recipes/${this._image}`
     }
 
     get time() {
