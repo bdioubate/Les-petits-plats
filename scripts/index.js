@@ -1,6 +1,6 @@
 //Importation des classes
 import { recipes } from "../data/recipes.js"
-import recipeSectionTemplate from "./templates/indexTemplate.js"
+import recipeCard from "./templates/recipeCard.js"
 
 //Mise en forme de la section recipe_section
 function displayRecipe() {
@@ -9,7 +9,7 @@ function displayRecipe() {
 
     //Ajout et mise en forme des recettes
     for (const recipe of recipes) {
-        new recipeSectionTemplate(recipe).getRecipeCard()
+        new recipeCard(recipe).getRecipeCard()
       }
 }
 
