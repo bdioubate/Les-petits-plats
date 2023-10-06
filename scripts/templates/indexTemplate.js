@@ -1,4 +1,4 @@
-//Class pour l'organisation de la page index.html
+//Class de la mise en forme d'une card recette
 export default class recipeSectionTemplate{ 
 
     constructor(data) {
@@ -29,8 +29,8 @@ export default class recipeSectionTemplate{
         return this._ingredients
     }
 
-    //Recuperation des variables globales 
-    getVariable() {
+    //Creation et recuperation des variables globales 
+    getVariables() {
         //Section des cards de recette
         const recipeSection = document.getElementById("recipe_section")
 
@@ -41,12 +41,12 @@ export default class recipeSectionTemplate{
 
         //Creation de la balise figure de l'article
         const recipeArticleFigure = document.createElement("figure")
-        recipeArticleFigure.setAttribute("class","figure-card-recipe")
+        recipeArticleFigure.setAttribute("class","card-recipe__figure")
         recipeArticle.appendChild(recipeArticleFigure)
 
         //Creation de la div encart de la figure
         const recipeArticleFigureEncart = document.createElement("div")
-        recipeArticleFigureEncart.setAttribute("class","encard-figure-card-recipe")
+        recipeArticleFigureEncart.setAttribute("class","card-recipe__figure__encart")
         recipeArticleFigure.appendChild(recipeArticleFigureEncart)
 
         //Creation de la balise p de l'encart
@@ -55,12 +55,12 @@ export default class recipeSectionTemplate{
 
         //Creation de la balise img de la figure
         const recipeArticleFigureImg = document.createElement("img")
-        recipeArticleFigureImg.setAttribute("class","img-figure-card-recipe")
+        recipeArticleFigureImg.setAttribute("class","card-recipe__figure__img")
         recipeArticleFigure.appendChild(recipeArticleFigureImg)
 
         //Creation de la balise figcaption de la figure
         const recipeArticleFigureFigcaption = document.createElement("figcaption")
-        recipeArticleFigureFigcaption.setAttribute("class","figcaption-figure-card-recipe")
+        recipeArticleFigureFigcaption.setAttribute("class","card-recipe__figure__figcaption")
         recipeArticleFigure.appendChild(recipeArticleFigureFigcaption)
 
         //Creation de la balise h3 de la figcaption
@@ -69,12 +69,12 @@ export default class recipeSectionTemplate{
 
         //Creation de la div text de l'article
         const recipeArticleText = document.createElement("div")
-        recipeArticleText.setAttribute("class","text-card-recipe")
+        recipeArticleText.setAttribute("class","card-recipe__text")
         recipeArticle.appendChild(recipeArticleText)
 
         //Creation de la div description recette de la div text
         const recipeArticleTextRecette = document.createElement("div")
-        recipeArticleTextRecette.setAttribute("class","recette-text-card-recipe")
+        recipeArticleTextRecette.setAttribute("class","card-recipe__text__recette")
         recipeArticleText.appendChild(recipeArticleTextRecette)
 
         //Creation de la balise titre Recette h4 de la description recette
@@ -88,7 +88,7 @@ export default class recipeSectionTemplate{
 
         //Creation de la div description ingredients de la div text
         const recipeArticleTextIngredients = document.createElement("div")
-        recipeArticleTextIngredients.setAttribute("class","ingredients-text-card-recipe")
+        recipeArticleTextIngredients.setAttribute("class","card-recipe__text__ingredients")
         recipeArticleText.appendChild(recipeArticleTextIngredients)
 
         //Creation de la balise titre h4 de la description ingredients
@@ -98,7 +98,7 @@ export default class recipeSectionTemplate{
 
         //Creation de la div list de la description ingredients
         const recipeArticleTextIngredientsList = document.createElement("div")
-        recipeArticleTextIngredientsList.setAttribute("class","list-ingredients-text-card-recipe")
+        recipeArticleTextIngredientsList.setAttribute("class","card-recipe__text__ingredients__list")
         recipeArticleTextIngredients.appendChild(recipeArticleTextIngredientsList)
 
         //Creation de la balise h5 de l'ingredient
@@ -110,10 +110,10 @@ export default class recipeSectionTemplate{
         return { recipeSection, recipeArticle, recipeArticleFigure, recipeArticleFigureEncart, recipeArticleFigureEncartP, recipeArticleFigureImg, recipeArticleFigureFigcaption, recipeArticleFigureFigcaptionH3, recipeArticleText, recipeArticleTextRecette, recipeArticleTextRecetteH4, recipeArticleTextRecetteP, recipeArticleTextIngredients, recipeArticleTextIngredientsH4, recipeArticleTextIngredientsList, recipeArticleTextIngredientsListIngredientH5, recipeArticleTextIngredientsListIngredientP }
     }
 
-    //Section header
+    //mise en forme d'une card recette
     getRecipeCard() {
 
-        const { recipeArticleFigureEncartP, recipeArticleFigureImg, recipeArticleFigureFigcaptionH3, recipeArticleTextRecetteP, recipeArticleTextIngredientsList } = this.getVariable()
+        const { recipeArticleFigureEncartP, recipeArticleFigureImg, recipeArticleFigureFigcaptionH3, recipeArticleTextRecetteP, recipeArticleTextIngredientsList } = this.getVariables()
  
 
         //Encart de la duree de la recette 
@@ -128,30 +128,33 @@ export default class recipeSectionTemplate{
         //Description de la recette
         recipeArticleTextRecetteP.textContent = this.description
 
-        //Boucle d'ajout des ingredients a la div list-ingredients-text-card-recipe
-        this.ingredients.forEach((ingredient) => {
+        //Boucle d'ajout des ingredients a la div card-recipe__text__ingredients__list
+        for (const ingredient of this.ingredients) {
+            //Creation du titre de l'ingredient
             const h5 = document.createElement("h5")
             h5.textContent = ingredient.ingredient
+            //Creation de la description de l'ingredient
             const p = document.createElement("p")
-            if(ingredient.unit){
-                if(String(ingredient.unit).charAt(0) === "c"){
-                    p.textContent = `${ingredient.quantity} ${ingredient.unit}`
-                }else{
-                    p.textContent = `${ingredient.quantity}${ingredient.unit}`
-                }
-            } else {
-                p.textContent = ingredient.quantity
-            }
+
+            //si unité existe
+            ingredient.unit ? 
+                p.textContent = `${ingredient.quantity} ${ingredient.unit}` 
+                :
+                //si quantité existe
+                ingredient.quantity ? 
+                    p.textContent = ingredient.quantity
+                    :
+                    p.textContent = "-"
 
             //Creation de la div ingredient de la list
             const recipeArticleTextIngredientsListIngredient = document.createElement("div")
-            recipeArticleTextIngredientsListIngredient.setAttribute("class","ingredient-list-ingredients-text-card-recipe")
+            recipeArticleTextIngredientsListIngredient.setAttribute("class","card-recipe__text__ingredients__list__ingredient")
 
             recipeArticleTextIngredientsListIngredient.appendChild(h5)
             recipeArticleTextIngredientsListIngredient.appendChild(p)
 
             recipeArticleTextIngredientsList.appendChild(recipeArticleTextIngredientsListIngredient)
-        })
+        }
         
 
     }

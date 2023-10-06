@@ -30,7 +30,7 @@ header h1 {
     /*font-size: 44px;*/
 }
 
-#search-bar {
+#search-content {
     width: 954px;
     height: 72px;
     position: relative;
@@ -38,7 +38,7 @@ header h1 {
     border: none;
 }
 
-#search-bar input{
+#search-content input{
     width: 100%;
     height: 100%;
     border-radius: 10px;
@@ -47,14 +47,14 @@ header h1 {
     padding-right: 35px;
 }
 
-#search-bar input::placeholder{
+#search-content input::placeholder{
     position: absolute;
     top: 28px;
     left: 35px;
     font-size: 16px;
 }
 
-#search-bar button{
+#search-content button{
     position: absolute;
     top: 10px;
     right: 10px;
@@ -66,7 +66,7 @@ header h1 {
     cursor: pointer;
 }
 
-#search-bar button i{
+#search-content button i{
     color: #FFFFFF;
 }
 
@@ -126,13 +126,13 @@ main {
     background-color: #FFFFFF;
 }
 
-.figure-card-recipe{
+.card-recipe__figure{
     position: relative;
     height: 340px;
     width: 100%;
     border-radius: 20px 20px 0 0;
 }
-.encard-figure-card-recipe{
+.card-recipe__figure__encart{
     position: absolute;
     top: 20px;
     right: 20px;
@@ -144,14 +144,14 @@ main {
     place-items: center;
 }
 
-img.img-figure-card-recipe{
+img.card-recipe__figure__img{
     width: 100%;
     height: 250px;
     object-fit: cover;
     border-radius: 20px 20px 0 0;
 }
 
-.figcaption-figure-card-recipe{
+.card-recipe__figure__figcaption{
     width: auto;
     height: 90px;
     margin-left: 30px;
@@ -159,7 +159,7 @@ img.img-figure-card-recipe{
     align-items: center;
 }
 
-.text-card-recipe{
+.card-recipe__text{
     display: flex;
     flex-direction: column;
     row-gap: 30px;
@@ -168,30 +168,30 @@ img.img-figure-card-recipe{
     margin: 0 25px;
 }
 
-.recette-text-card-recipe, .ingredients-text-card-recipe{
+.card-recipe__text__recette, .card-recipe__text__ingredients{
     display: flex;
     flex-direction: column;
     row-gap: 15px;
 
 }
 
-.recette-text-card-recipe p{
+.card-recipe__text__recette p{
     height: 75px;
     overflow: hidden;
 }
 
-.recette-text-card-recipe p:hover{
+.card-recipe__text__recette p:hover{
     overflow: scroll;
 }
 
-.list-ingredients-text-card-recipe{
+.card-recipe__text__ingredients__list{
     width: 100%;
     display: flex;
     flex-wrap: wrap;
 }
 
-.ingredient-list-ingredients-text-card-recipe{
-    width: 49%;
+.card-recipe__text__ingredients__list__ingredient{
+    width: 50%;
     max-width: 50%;
     height: 50px;
     display: flex;
