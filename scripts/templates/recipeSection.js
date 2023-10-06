@@ -3,7 +3,7 @@ import recipeCard from "./recipeCard.js"
 import { recipes }  from "../../data/recipes.js"
 
 //Class de la mise en forme et fonctionnement des recettes
-export default class recipe{ 
+export default class recipeSection{ 
 
     //fonctionnement de la section recipe_section
     getRecipe() {
