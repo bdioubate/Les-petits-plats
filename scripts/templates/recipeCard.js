@@ -30,7 +30,7 @@ export default class recipeCard{
     }
 
     //Creation et recuperation des variables globales 
-    getVariables() {
+    getVariablesRecipeCard() {
         //Section des cards de recette
         const recipeSection = document.getElementById("recipe_section")
 
@@ -113,7 +113,7 @@ export default class recipeCard{
     //mise en forme d'une card recette
     getRecipeCard() {
 
-        const { recipeArticleFigureEncartP, recipeArticleFigureImg, recipeArticleFigureFigcaptionH3, recipeArticleTextRecetteP, recipeArticleTextIngredientsList } = this.getVariables()
+        const { recipeArticleFigureEncartP, recipeArticleFigureImg, recipeArticleFigureFigcaptionH3, recipeArticleTextRecetteP, recipeArticleTextIngredientsList } = this.getVariablesRecipeCard()
  
 
         //Encart de la duree de la recette 
@@ -127,6 +127,13 @@ export default class recipeCard{
 
         //Description de la recette
         recipeArticleTextRecetteP.textContent = this.description
+
+        //Ajout des ingredients
+        this.addIngredients(recipeArticleTextIngredientsList)
+    }
+
+    //mise en forme et ajout des ingredients
+    addIngredients(recipeArticleTextIngredientsList) {
 
         //Boucle d'ajout des ingredients a la div card-recipe__text__ingredients__list
         for (const ingredient of this.ingredients) {
@@ -155,7 +162,8 @@ export default class recipeCard{
 
             recipeArticleTextIngredientsList.appendChild(recipeArticleTextIngredientsListIngredient)
         }
-        
-
+            
     }
+
+
 }

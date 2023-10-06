@@ -1,21 +1,14 @@
-//Importation des classes
-import { recipes } from "../data/recipes.js"
-import recipeCard from "./templates/recipeCard.js"
+//Importation de la class principale des recettes
+import recipe from "./templates/Recipe.js"
 
-//Mise en forme de la section recipe_section
-function displayRecipe() {
-
-    //Ajout des dropdown
-
-    //Ajout et mise en forme des recettes
-    for (const recipe of recipes) {
-        new recipeCard(recipe).getRecipeCard()
-      }
-}
-
-//Mise en forme de la page index.html
+//Mise en forme et fonctionnement de la page index.html
 function init() {
-    displayRecipe()
+
+    //Mise en forme des recettes
+    new recipe().displayRecipe()
+
+    //Mise en forme des tags (tag.js)
 }
 
 init()
+
