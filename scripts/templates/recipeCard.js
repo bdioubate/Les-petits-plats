@@ -111,7 +111,7 @@ export default class recipeCard{
     }
 
     //mise en forme d'une card recette
-    getRecipeCard() {
+    displayRecipeCard() {
 
         const { recipeArticleFigureEncartP, recipeArticleFigureImg, recipeArticleFigureFigcaptionH3, recipeArticleTextRecetteP, recipeArticleTextIngredientsList } = this.getVariablesRecipeCard()
  
