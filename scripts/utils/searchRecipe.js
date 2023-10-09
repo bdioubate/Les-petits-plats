@@ -12,43 +12,13 @@ export default class searchRecipe{
     }
 
     getSearchRecipe() { 
-        //Copie entier du tableau des recettes
-        const newRecipe = [...this.recipes]
-
         //Input de la recherche principale
         const champ = document.querySelector("input#search")
 
-        //Variable de la recherche
-        let sentenceSearch = ""
-
-        //Au changement de l'input
-        champ.addEventListener("change", () => {
-            //La section html des recettes
-            const cardRecipe = document.querySelectorAll(".card-recipe")
-
-            if(champ.value.length >= 3) {
-                sentenceSearch = champ.value
-                const newTabRecipe = this.getNewTabRecipe(sentenceSearch)
-
-                //Supprimer des card recette
-                for(let i = 0; i < cardRecipe.length; i++){
-                    if(cardRecipe){
-                        cardRecipe[i].remove()
-                    }
-                }
-                //ajout de(s) nouvelle(s) card(s)
-                new recipeSection(newTabRecipe).displayRecipe()
-            } else {
-                //Supprimer des card recette
-                for(let i = 0; i < cardRecipe.length; i++){
-                    if(cardRecipe){
-                        cardRecipe[i].remove()
-                    }
-                }
-                //ajout de tous les cards
-                new recipeSection(newRecipe).displayRecipe()
-            }
-        })
+        //Valeur du champ
+        const sentenceNewSearch = champ.value
+        
+        return sentenceNewSearch
 
     }
 
@@ -118,7 +88,48 @@ export default class searchRecipe{
         return newRecipe
     }
 
-    displaysearchRecipe() { 
+    displayNewRecipe() { 
 
+        //Copie entier du tableau des recettes
+        const newRecipe = [...this.recipes]
+
+        //Input de la recherche principale
+        const champ = document.querySelector("input#search")
+
+        //Variable de la recherche
+        let sentenceSearch = ""
+
+        //Au changement de l'input
+        champ.addEventListener("change", () => {
+            //La section html des recettes
+            const cardRecipe = document.querySelectorAll(".card-recipe")
+
+            //La valeur du champ de recherche principale
+            sentenceSearch = String(this.getSearchRecipe())
+
+            console.log(sentenceSearch)
+
+            if(sentenceSearch.length >= 3) {
+                const newTabRecipe = this.getNewTabRecipe(sentenceSearch)
+
+                //Supprimer des card recette
+                for(let i = 0; i < cardRecipe.length; i++){
+                    if(cardRecipe){
+                        cardRecipe[i].remove()
+                    }
+                }
+                //ajout de(s) nouvelle(s) card(s)
+                new recipeSection(newTabRecipe).displayRecipe()
+            } else {
+                //Supprimer des card recette
+                for(let i = 0; i < cardRecipe.length; i++){
+                    if(cardRecipe){
+                        cardRecipe[i].remove()
+                    }
+                }
+                //ajout de tous les cards
+                new recipeSection(newRecipe).displayRecipe()
+            }
+        })
     }
 }
