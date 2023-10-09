@@ -24,19 +24,46 @@
     </header>
     <main>
         <section>
-            <div id="dropdown-content">
-                <button class="dropdown" data-filter="ingredients-ingredient">
-                    <p>Ingrédients</p>
-                    <i class="fa-solid fa-angle-down fa-xl"></i>
-                </button>
-                <button class="dropdown" data-filter="appliance">
-                    <p>Appareils</p>
-                    <i class="fa-solid fa-angle-down fa-xl"></i>
-                </button>
-                <button class="dropdown" data-filter="ustensils">
-                    <p>Ustensiles</p>
-                    <i class="fa-solid fa-angle-down fa-xl"></i>
-                </button>
+            <div id="dropdown-content"> 
+                <div class="dropdown" data-filter="ingredients-ingredient">
+                    <button class="dropdown__btn" data-btn="false">
+                        <p>Ingrédients</p>
+                        <i class="fa-solid fa-angle-down fa-xl"></i>
+                    </button>
+                    <div class="dropdown__search" style="display: none;">
+                        <input type="search" id="ingredients-ingredient__search" name="search"/>
+                        <button>
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                    <div class="dropdown__ingredient" style="display: none;"></div>
+                </div>
+                <div class="dropdown" data-filter="appliance">
+                    <button class="dropdown__btn" data-btn="false" data-filter="appliance">
+                        <p>Appareils</p>
+                        <i class="fa-solid fa-angle-down fa-xl"></i>
+                    </button>
+                    <div class="dropdown__search" style="display: none;">
+                        <input type="search" id="appliance__search" name="search"/>
+                        <button>
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                    <div class="dropdown__ingredient" style="display: none;"></div>
+                </div>
+                <div class="dropdown" data-filter="ustensils">
+                    <button class="dropdown__btn" data-btn="false">
+                        <p>Ustensiles</p>
+                        <i class="fa-solid fa-angle-down fa-xl"></i>
+                    </button>
+                    <div class="dropdown__search" style="display: none;">
+                        <input type="search" id="ustensils__search" name="search"/>
+                        <button>
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                    <div class="dropdown__ingredient" style="display: none;"></div>
+                </div>
             </div>
             <div id="nb-recipes">
                 <h2>50 recettes</h2>

@@ -1,6 +1,7 @@
 * {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
 
 header {
@@ -81,23 +82,62 @@ main {
   width: 720px;
   display: flex;
   justify-content: space-between;
+  margin-bottom: 50px;
 }
 
 #dropdown-content .dropdown {
   width: 200px;
-  height: 70px;
+  border-radius: 10px;
+}
+
+#dropdown-content .dropdown > * {
   background-color: #FFFFFF;
+  padding: 0 15px;
+  min-width: 100%;
+  width: 100%;
+  max-width: 100%;
+}
+
+#dropdown-content .dropdown__btn {
+  height: 70px;
   border-radius: 10px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 15px;
   cursor: pointer;
   border: none;
 }
 
-#dropdown-content .dropdown p {
+#dropdown-content .dropdown__btn p {
   font-size: 16px;
+}
+
+#dropdown-content .dropdown__search {
+  height: 55px;
+  place-items: center;
+  position: relative;
+}
+
+#dropdown-content .dropdown__search input {
+  border: 1px solid #C6C6C6;
+  width: 100%;
+  height: 35px;
+  border-radius: 2px;
+}
+
+#dropdown-content .dropdown__search button {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  width: 25px;
+  height: 25px;
+  background-color: #FFFFFF;
+  border: none;
+  cursor: pointer;
+}
+
+#dropdown-content .dropdown__search button i {
+  color: #C6C6C6;
 }
 
 #nb-recipes {
@@ -108,7 +148,7 @@ main {
 
 #recipe_section {
   display: flex;
-  margin: 50px 0px 175px 0px;
+  margin: auto 0px 175px 0px;
   flex-wrap: wrap;
   justify-content: space-between;
   /*column-gap: 50px;*/
@@ -200,6 +240,25 @@ img.card-recipe__figure__img {
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
+}
+
+#dropdown-content .dropdown__ingredient {
+  max-height: 190px;
+  overflow: scroll;
+}
+
+#dropdown-content .dropdown__ingredient button {
+  width: 100%;
+  background: none;
+  border: none;
+  height: 30px;
+  cursor: pointer;
+}
+
+#dropdown-content .dropdown__ingredient button p {
+  text-align: start;
+  color: #1B1B1B;
+  font-size: 14px;
 }
 
 /*# sourceMappingURL=style.css.map */

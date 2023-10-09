@@ -1,0 +1,19 @@
+#dropdown-content .dropdown__ingredient{
+    max-height: 190px;
+    overflow: scroll;
+}
+
+#dropdown-content .dropdown__ingredient button{
+    width: 100%;
+    background: none;
+    border: none;
+    height: 30px;
+    cursor: pointer;
+}
+
+#dropdown-content .dropdown__ingredient button p{
+    text-align: start;
+    color: #1B1B1B;
+    font-size: 14px;
+
+}

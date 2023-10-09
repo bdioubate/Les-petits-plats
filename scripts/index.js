@@ -8,21 +8,37 @@ import searchRecipe from "./utils/searchRecipe.js"
 //Mise en forme et fonctionnement de la page index.html
 function init() {
 
-    /*//Mise en forme des dropdown
-    new dropdown(ingredients-ingredient, newSearchRecipe).displayTagsDropdown()
-    new dropdown(appliance, newSearchRecipe).displayTagsDropdown()
-    new dropdown(ustensils, newSearchRecipe).displayTagsDropdown()*/
+    /*//Mise en forme des tags (tag.js)
+    new tag(recipes, ingredients-ingredient, newSearchRecipe).displayTag()
+    new tag(recipes, appliance, newSearchRecipe).displayTag()
+    new tag(recipes, ustensils, newSearchRecipe).displayTag()*/
+
+    //Mise en forme des dropdown
+    new dropdown(recipes, "ingredients-ingredient").displayDropdown()
+    new dropdown(recipes, "appliance").displayDropdown()
+    new dropdown(recipes, "ustensils").displayDropdown()
 
     //Mise en forme des recettes
     new recipeSection(recipes).displayRecipe()
 
-    /*//Mise en forme des tags (tag.js)
-    new tag(ingredients-ingredient, newSearchRecipe).displayTag()
-    new tag(appliance, newSearchRecipe).displayTag()
-    new tag(ustensils, newSearchRecipe).displayTag()*/
+    //Mise a jour de la mise en forme des recettes
+    new searchRecipe(recipes).displayNewRecipe()
 
-    //Ecoute sur le champ de recherche principale
-    new searchRecipe(recipes).getSearchRecipe()
+    //test 
+    //console.log(new dropdown(recipes, "ingredients-ingredient").laneTags())
+    //console.log(new dropdown(recipes, "appliance").laneTags())
+    //console.log(new dropdown(recipes, "ustensils").laneTags())
+    //new dropdown(recipes, "ingredients-ingredient").displayTagsDropdown()
+    //new dropdown(recipes, "appliance").displayTagsDropdown()
+    //new dropdown(recipes, "ustensils").displayTagsDropdown()
+
+    //console.log(new dropdown(recipes, "ingredients-ingredient").typeTags("ingredients", recipes))
+    //console.log(new dropdown(recipes, "appliance").typeTags("appliance", recipes))
+    //console.log(new dropdown(recipes, "ustensils").typeTags("ustensils", recipes))
+    
+    
+
+    
 }
 
 init()
