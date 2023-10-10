@@ -8,11 +8,6 @@ import searchRecipe from "./utils/searchRecipe.js"
 //Mise en forme et fonctionnement de la page index.html
 function init() {
 
-    /*//Mise en forme des tags (tag.js)
-    new tag(recipes, ingredients-ingredient, newSearchRecipe).displayTag()
-    new tag(recipes, appliance, newSearchRecipe).displayTag()
-    new tag(recipes, ustensils, newSearchRecipe).displayTag()*/
-
     //Mise en forme des dropdown
     new dropdown(recipes, "ingredients-ingredient").displayDropdown()
     new dropdown(recipes, "appliance").displayDropdown()
@@ -24,21 +19,8 @@ function init() {
     //Mise a jour de la mise en forme des recettes
     new searchRecipe(recipes).displayNewRecipe()
 
-    //test 
-    //console.log(new dropdown(recipes, "ingredients-ingredient").laneTags())
-    //console.log(new dropdown(recipes, "appliance").laneTags())
-    //console.log(new dropdown(recipes, "ustensils").laneTags())
-    //new dropdown(recipes, "ingredients-ingredient").displayTagsDropdown()
-    //new dropdown(recipes, "appliance").displayTagsDropdown()
-    //new dropdown(recipes, "ustensils").displayTagsDropdown()
-
-    //console.log(new dropdown(recipes, "ingredients-ingredient").typeTags("ingredients", recipes))
-    //console.log(new dropdown(recipes, "appliance").typeTags("appliance", recipes))
-    //console.log(new dropdown(recipes, "ustensils").typeTags("ustensils", recipes))
-    
-    
-
-    
+    //Mise a jour des recettes
+    new searchRecipe(recipes).Twocondition()
 }
 
 init()
