@@ -45,14 +45,19 @@ export default class dropdown{
     }
 
     showDropdown() {
-        const { btnDropdown, searchDropdown, ingredientsDropdown } = this.getVariable() 
+        //Boutton dropdown
+        const btnDropdown = document.querySelector(`.dropdown[data-filter="${this.nameDropdown}"] .dropdown__btn`)
+
+        //div recherche du dropdown
+        const searchDropdown = document.querySelector(`.dropdown[data-filter="${this.nameDropdown}"] .dropdown__search`)
+
+        //div recherche du dropdown
+        const ingredientsDropdown = document.querySelector(`.dropdown[data-filter="${this.nameDropdown}"] .dropdown__ingredient`)
 
         //Au click boutton dropdown
         btnDropdown.addEventListener("click", () => {
             if(btnDropdown.dataset.btn === "true") {
                 this.closeDropdown()
-                //btnDropdown.style.borderRadius = "10px";
-                //btnDropdown.dataset.btn = "false";
             } else{
                 searchDropdown.style.display = "grid";
                 ingredientsDropdown.style.display = "block";
@@ -64,7 +69,14 @@ export default class dropdown{
     }
 
     closeDropdown() {
-        const { btnDropdown, searchDropdown, ingredientsDropdown } = this.getVariable()
+        //Boutton dropdown
+        const btnDropdown = document.querySelector(`.dropdown[data-filter="${this.nameDropdown}"] .dropdown__btn`)
+
+        //div recherche du dropdown
+        const searchDropdown = document.querySelector(`.dropdown[data-filter="${this.nameDropdown}"] .dropdown__search`)
+
+        //div recherche du dropdown
+        const ingredientsDropdown = document.querySelector(`.dropdown[data-filter="${this.nameDropdown}"] .dropdown__ingredient`)
 
         //Au click boutton dropdown
         //btnDropdown.addEventListener("click", () => {
@@ -77,18 +89,32 @@ export default class dropdown{
     }
 
     //Mise en forme des dropdown
-    displayDropdown(tab = this.recipes) {
+    displayDropdown(tab = this.recipes, sentenceSearchTag = "") {
 
         //div search Dropdown
         this.showDropdown()
 
         //div Dropdown ingredients
-        this.displayTagsDropdown(tab)
+        this.displayTagsDropdown(tab,sentenceSearchTag)
+
+    }
+
+    //tester
+    updateDisplayDropdown(tab = this.recipes, sentenceSearchTag = "") {
+
+        //Input de la recherche principale
+        const input = document.querySelector(`input#${this.nameDropdown}__search`)
+
+        //effacer l'input du dropdown
+        input.value = ""
+
+        this.updateDisplayTagsDropdown(tab)
 
     }
 
     getSearchDropdown() {
-        const { btnDropdown, searchDropdown, input, ingredientsDropdown } = this.getVariable()
+        //Input de la recherche principale
+        const input = document.querySelector(`input#${this.nameDropdown}__search`)
 
         input.addEventListener("change", () => {
         //Tab des bouttons des tag 
@@ -105,8 +131,6 @@ export default class dropdown{
             this.displayTagsDropdown(this.recipes, sentence)
         })
         
-        
-        //return sentence
         
     }
 
@@ -179,8 +203,96 @@ export default class dropdown{
     }
 
     displayTagsDropdown(tab = this.recipes, sentenceSearchTag = "") {
-        const { ingredientsDropdown } = this.getVariable()
+        //div recherche du dropdown
+        const ingredientsDropdown = document.querySelector(`.dropdown[data-filter="${this.nameDropdown}"] .dropdown__ingredient`)
 
+        //TEST
+        //Tab des bouttons des tag 
+        const btnTags =  document.querySelectorAll(`.dropdown[data-filter="${this.nameDropdown}"] .dropdown__ingredient button`)
+
+        const ingredientsDropdownBtn = btnTags
+
+        console.log(ingredientsDropdownBtn)
+
+
+        //effacement des ancien tags
+           for (let i = 0; i < ingredientsDropdownBtn.length; i++) {
+                //console.log(ingredientsDropdownBtn.childNodes[i].childNodes[0].textContent)
+                console.log("jai supprimer "+ ingredientsDropdownBtn[i])
+                ingredientsDropdownBtn[i].remove()
+                //console.log(ingredientsDropdownBtn.childNodes[i])
+                
+            }
+            
+        //TEST
+
+        //Creation des tags
+        for (let i = 0; i < this.findTags(tab).length; i++) {
+            
+            if(this.findTags(tab)[i].includes(sentenceSearchTag.toLowerCase())){
+                //Verifie s'il existe pas dans la div tag-content
+                let NoExist = true
+
+                const tabTag = new tag().registerTagTabCopie()
+
+                for (let j = 0; j < tabTag.length; j++) {
+
+                    if(this.findTags(tab)[i].toLowerCase() === String(new tag().registerTagTabCopie()[j]).toLowerCase()) {
+                        NoExist = false
+                        }
+                    
+                }
+                    if(NoExist){
+                        //Bangali revient
+                        
+                        
+                        const tagBtn = document.createElement("button")
+                        const tagP = document.createElement("p")
+                        tagP.textContent = this.findTags(tab)[i].toLowerCase()
+                        tagBtn.ariaLabel = this.findTags(tab)[i].toLowerCase()
+                        tagBtn.appendChild(tagP)
+                        ingredientsDropdown.appendChild(tagBtn)    
+                    }
+                    
+            }
+            
+        }
+
+        //Au click sur un bouton tag
+        this.tagsDropdown()
+
+        //Au changement de l'input efface les tagsqui correspond pas
+        this.getSearchDropdown()
+
+        //Au click d'un bouton croix d'un tag
+        this.closeTag()
+
+
+    }
+
+    //tester
+    updateDisplayTagsDropdown(tab = this.recipes, sentenceSearchTag = "") {
+        //div recherche du dropdown
+        const ingredientsDropdown = document.querySelector(`.dropdown[data-filter="${this.nameDropdown}"] .dropdown__ingredient`)
+
+        //Tab des bouttons des tag 
+        const btnTags =  document.querySelectorAll(`.dropdown[data-filter="${this.nameDropdown}"] .dropdown__ingredient button`)
+
+        const ingredientsDropdownBtn = btnTags
+
+        console.log(ingredientsDropdownBtn)
+
+
+        //effacement des ancien tags
+           for (let i = 0; i < ingredientsDropdownBtn.length; i++) {
+                //console.log(ingredientsDropdownBtn.childNodes[i].childNodes[0].textContent)
+                console.log("jai supprimer "+ ingredientsDropdownBtn[i])
+                ingredientsDropdownBtn[i].remove()
+                //console.log(ingredientsDropdownBtn.childNodes[i])
+                
+            }
+
+        
         //Creation des tags
         for (let i = 0; i < this.findTags(tab).length; i++) {
             if(this.findTags(tab)[i].includes(sentenceSearchTag.toLowerCase())){
@@ -194,18 +306,17 @@ export default class dropdown{
             
         }
 
-        //Au click sur un bouton tag
         this.tagsDropdown()
-
-        //Au changement de l'input efface les tagsqui correspond pas
-        this.getSearchDropdown()
-
 
     }
 
     //Au click sur un bouton tag
     tagsDropdown() {
-        const { btnTags } = this.getVariable()
+
+        //Tab des bouttons des tag 
+        const btnTags =  document.querySelectorAll(`.dropdown[data-filter="${this.nameDropdown}"] .dropdown__ingredient button`)
+        //tester
+        console.log(btnTags.length)
 
         for (const btnTag of btnTags) {
             btnTag.addEventListener("click", () => { 
@@ -214,16 +325,29 @@ export default class dropdown{
                 btnTag.remove()
                 //Creation de la div tag
                 new tag().displayTag(btnTag.ariaLabel, this.nameDropdown)
-                //Enregistre le tag dans la tableau des tag qui sont active
-                /*const tabBangali = */new tag().registerTagTab(this.nameDropdown)
-                /*
-                //Mis a jour des card recettes
-                //new searchRecipe().updateDisplay(this.recipes)
-                //console.log(new searchRecipe().conditionWithTags(this.nameDropdown,tabBangali,this.recipes))
-                this.closeDropdown()*/
-                //console.log(new searchRecipe().updateDisplay(new searchRecipe().Twocondition()))
+
+                //tester
+                new searchRecipe(this.recipes).updateDisplay(new searchRecipe(this.recipes).Twocondition())
             })    
         }
             
+    }
+
+    //Au click de un bouton croix d'un tag 
+    closeTag() {
+        const btnTag = document.querySelectorAll(`.tag__button button`)
+
+        const Tag =  document.querySelectorAll(`.tag__button`)
+
+        for (let i = 0; i < btnTag.length; i++) {
+            btnTag[i].addEventListener("click", () => { 
+                console.log("jai toucher")
+                Tag[i].remove()
+                //tester
+                new searchRecipe(this.recipes).updateDisplay(new searchRecipe(this.recipes).Twocondition())
+            })   
+            
+            
+        }
     }
 }

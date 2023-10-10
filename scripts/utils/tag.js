@@ -51,11 +51,6 @@ export default class tag{
 
     }
 
-    //Fermer le tag
-    closeTag() {
-
-    }
-
     //Rechercher les tags
     searchTags(nameTag, searchRecipe) {
 
@@ -63,7 +58,6 @@ export default class tag{
 
     //Mise en forme des tags
     displayTag(nom,name) {
-        //const { divTagDropdown} = this.getVariable()
 
         //div tag du dropdown
         const divTagDropdown = document.querySelector(`.tag[data-filter="${name}"]`)
@@ -89,9 +83,6 @@ export default class tag{
         const btnTag = document.createElement("button")
         btnTag.appendChild(iBtnTag)
         divTag.appendChild(btnTag)
-
-        
-        
     }
 
 

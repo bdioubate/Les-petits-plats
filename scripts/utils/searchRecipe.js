@@ -24,7 +24,8 @@ export default class searchRecipe{
 
     }
 
-    conditionWithRecipe(sentenceNewSearch = "", TabRecipe = this.recipes, nameDropdown = "", TabTags = []) {
+    conditionWithRecipe(sentenceNewSearch = "", TabRecipe = this.recipes, nameDropdown = "", TabTags = []) { 
+        console.log(TabRecipe)
         //Copie entier du tableau des recettes
         const newRecipe = [...TabRecipe]
         
@@ -61,11 +62,12 @@ export default class searchRecipe{
                     tabNewRecipe.push(newRecipe[i])
                 }
         }
+
         return tabNewRecipe
 
     }
 
-    Twocondition() {
+    Twocondition() { 
         const tabNewRecipe = []
         
         const sentenceSearch = String(this.getSearchRecipe())
@@ -81,6 +83,14 @@ export default class searchRecipe{
             }
             
         }
+        //Supprimer la valeur des input des dropdown
+        const input = document.querySelectorAll("#dropdown-content input")
+
+        for (let i = 0; i < input.length; i++) {
+            input[i].value = ""
+            
+        }
+
         return tabNewRecipe
 
     }
@@ -91,9 +101,6 @@ export default class searchRecipe{
 
         //Tous les tags active
         const tabTags = new tag().registerTagTabCopie()
-
-        //Copie de l'object des recette
-        //const newTabRecipe = await [...this.recipes]
 
         if(tabRecipe != undefined){
             const newTabRecipe = tabRecipe 
@@ -127,11 +134,16 @@ export default class searchRecipe{
                     }
                     //Object
                     else if(typeof newTabRecipe[i][`${nameDropdown}`] === "object") {
-                        if((newTabRecipe[i][`${nameDropdown}`]).includes(tabTags[j])){
-                            existTag = true
-                            calTag++
-                        }else{
-                            existTag = false 
+                        //test
+                        for (let x = 0; x < newTabRecipe[i][`${nameDropdown}`].length; x++) {
+                            console.log(newTabRecipe[i][`${nameDropdown}`][x].toLowerCase()+" === "+(tabTags[j]).toLowerCase())
+                            if(newTabRecipe[i][`${nameDropdown}`][x].toLowerCase() === (tabTags[j]).toLowerCase()){
+                                existTag = true
+                                calTag++
+                            }else{
+                                existTag = false 
+                            }
+                            
                         }
                     }
                     //Array
@@ -161,6 +173,7 @@ export default class searchRecipe{
                         }
 
         }
+
         return tabNewRecipe
         }
     }
@@ -229,8 +242,6 @@ export default class searchRecipe{
         }else{
             tabNewRecipe = newRecipe
         }
-        //return tabNewRecipe
-        //this.updateDisplay(tabNewRecipe)
 
     }
 
@@ -273,6 +284,11 @@ export default class searchRecipe{
         }
         //ajout de(s) nouvelle(s) card(s)
         new recipeSection(newRecipe).displayRecipe(newRecipe) 
+
+        //a completer
+        new dropdown(this.recipes, "ingredients-ingredient").displayTagsDropdown(newRecipe)
+        new dropdown(this.recipes, "appliance").displayTagsDropdown(newRecipe)
+        new dropdown(this.recipes, "ustensils").displayTagsDropdown(newRecipe)
     }
 
     displayNewRecipe() { 
@@ -288,9 +304,6 @@ export default class searchRecipe{
         const btnTags =  document.querySelectorAll(`.dropdown .dropdown__ingredient button`)
         for (const btnTag of btnTags) {
             btnTag.addEventListener("click", () => { 
-                this.updateDisplay(this.Twocondition())
-                //Supprimer le boutton du drpdown
-                btnTag.remove()
             }) 
         }
 
