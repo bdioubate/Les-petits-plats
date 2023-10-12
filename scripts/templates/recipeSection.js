@@ -22,7 +22,7 @@ export default class recipeSection{
         const newRecipe = [...tab]
 
         //Ajout et mise en forme des recettes
-        for (const recipe of new searchRecipe(newRecipe).getRecipe()) {
+        for (const recipe of newRecipe) {
             new recipeCard(recipe).displayRecipeCard()
         }
     }

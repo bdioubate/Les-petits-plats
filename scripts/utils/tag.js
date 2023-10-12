@@ -1,5 +1,3 @@
-import searchRecipe from "./searchRecipe.js"
-
 //Class de la mise en forme et le fonctionnement d'un tag
 export default class tag{
     constructor(nameTag="", nameDropdown = "", searchRecipe = "") {
@@ -20,21 +18,6 @@ export default class tag{
         return this.searchRecipe
     }
 
-    //Met les tags qui sont selectionner dans un tableau
-    registerTagTab(nom) {
-        //Creation du tableau des tags qui sont dans la div tag-content
-        const tagTab = []
-        //recuperer tous les tag dans la div tag-content
-        const allNameTags = document.querySelectorAll(`.tag[data-filter="${nom}"] .tag__button p`)
-
-        for (let i = 0; i < allNameTags.length; i++) {
-            tagTab.push(allNameTags[i].textContent)
-            
-        }
-        return tagTab
-
-    }
-
 
     //Met les tags qui sont selectionner dans un tableau
     registerTagTabCopie() {
@@ -48,11 +31,6 @@ export default class tag{
             
         }
         return tagTab
-
-    }
-
-    //Rechercher les tags
-    searchTags(nameTag, searchRecipe) {
 
     }
 

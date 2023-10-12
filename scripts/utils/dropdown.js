@@ -22,28 +22,6 @@ export default class dropdown{
         return this._searchRecipe
     }
 
-    getVariable() {
-        //Boutton dropdown
-        const btnDropdown = document.querySelector(`.dropdown[data-filter="${this.nameDropdown}"] .dropdown__btn`)
-
-        //div recherche du dropdown
-        const searchDropdown = document.querySelector(`.dropdown[data-filter="${this.nameDropdown}"] .dropdown__search`)
-
-        //Input de la recherche principale
-        const input = document.querySelector(`input#${this.nameDropdown}__search`)
-
-        //div recherche du dropdown
-        const ingredientsDropdown = document.querySelector(`.dropdown[data-filter="${this.nameDropdown}"] .dropdown__ingredient`)
-
-        //div des tags
-        const tagsDropdown = document.querySelector(`.dropdown[data-filter="${this.nameDropdown}"] .dropdown__btn`)
-
-        //Tab des bouttons des tag 
-        const btnTags =  document.querySelectorAll(`.dropdown[data-filter="${this.nameDropdown}"] .dropdown__ingredient button`)
-
-        return { btnDropdown, searchDropdown, input, ingredientsDropdown, btnTags }
-    }
-
     showDropdown() {
         //Boutton dropdown
         const btnDropdown = document.querySelector(`.dropdown[data-filter="${this.nameDropdown}"] .dropdown__btn`)
@@ -79,44 +57,33 @@ export default class dropdown{
         const ingredientsDropdown = document.querySelector(`.dropdown[data-filter="${this.nameDropdown}"] .dropdown__ingredient`)
 
         //Au click boutton dropdown
-        //btnDropdown.addEventListener("click", () => {
             searchDropdown.style.display = "none";
             ingredientsDropdown.style.display = "none";
-            btnDropdown.style.borderRadius = "10px";//
-            btnDropdown.dataset.btn = "false";//
-        //})
+            btnDropdown.style.borderRadius = "10px";
+            btnDropdown.dataset.btn = "false";
 
     }
 
     //Mise en forme des dropdown
-    displayDropdown(tab = this.recipes, sentenceSearchTag = "") {
+    displayDropdown(tab = this.recipes, sentenceSearchBar = "", sentenceSearchTag = "") {
 
         //div search Dropdown
         this.showDropdown()
 
         //div Dropdown ingredients
-        this.displayTagsDropdown(tab,sentenceSearchTag)
+        this.displayTagsDropdown(tab,sentenceSearchBar,sentenceSearchTag)
 
     }
 
-    //tester
-    updateDisplayDropdown(tab = this.recipes, sentenceSearchTag = "") {
-
-        //Input de la recherche principale
-        const input = document.querySelector(`input#${this.nameDropdown}__search`)
-
-        //effacer l'input du dropdown
-        input.value = ""
-
-        this.updateDisplayTagsDropdown(tab)
-
-    }
-
-    getSearchDropdown() {
+    getSearchDropdown(tab = this.recipes) {
         //Input de la recherche principale
         const input = document.querySelector(`input#${this.nameDropdown}__search`)
 
         input.addEventListener("change", () => {
+
+            //Valeur du champ
+        const sentence = input.value 
+
         //Tab des bouttons des tag 
         const btnTags =  document.querySelectorAll(`.dropdown[data-filter="${this.nameDropdown}"] .dropdown__ingredient button`)
 
@@ -125,10 +92,7 @@ export default class dropdown{
             
         }
 
-        //Valeur du champ
-        const sentence = input.value 
-
-            this.displayTagsDropdown(this.recipes, sentence)
+            this.displayTagsDropdown(tab, "",sentence)
         })
         
         
@@ -202,29 +166,23 @@ export default class dropdown{
 
     }
 
-    displayTagsDropdown(tab = this.recipes, sentenceSearchTag = "") {
+    displayTagsDropdown(tab = this.recipes, sentenceSearchBar = "", sentenceSearchTag = "") {
+        //Champ de l'input prinicipale
+        const champ = document.getElementById("input#search")
+
         //div recherche du dropdown
         const ingredientsDropdown = document.querySelector(`.dropdown[data-filter="${this.nameDropdown}"] .dropdown__ingredient`)
 
-        //TEST
         //Tab des bouttons des tag 
         const btnTags =  document.querySelectorAll(`.dropdown[data-filter="${this.nameDropdown}"] .dropdown__ingredient button`)
 
         const ingredientsDropdownBtn = btnTags
 
-        console.log(ingredientsDropdownBtn)
-
 
         //effacement des ancien tags
-           for (let i = 0; i < ingredientsDropdownBtn.length; i++) {
-                //console.log(ingredientsDropdownBtn.childNodes[i].childNodes[0].textContent)
-                console.log("jai supprimer "+ ingredientsDropdownBtn[i])
+          for (let i = 0; i < ingredientsDropdownBtn.length; i++) {
                 ingredientsDropdownBtn[i].remove()
-                //console.log(ingredientsDropdownBtn.childNodes[i])
-                
             }
-            
-        //TEST
 
         //Creation des tags
         for (let i = 0; i < this.findTags(tab).length; i++) {
@@ -237,14 +195,13 @@ export default class dropdown{
 
                 for (let j = 0; j < tabTag.length; j++) {
 
-                    if(this.findTags(tab)[i].toLowerCase() === String(new tag().registerTagTabCopie()[j]).toLowerCase()) {
+
+                    if((this.findTags(tab)[i].toLowerCase() === String(new tag().registerTagTabCopie()[j]).toLowerCase())) {
                         NoExist = false
                         }
                     
                 }
                     if(NoExist){
-                        //Bangali revient
-                        
                         
                         const tagBtn = document.createElement("button")
                         const tagP = document.createElement("p")
@@ -259,10 +216,11 @@ export default class dropdown{
         }
 
         //Au click sur un bouton tag
-        this.tagsDropdown()
+        this.tagsDropdown(sentenceSearchBar)
 
+        
         //Au changement de l'input efface les tagsqui correspond pas
-        this.getSearchDropdown()
+        this.getSearchDropdown(tab)
 
         //Au click d'un bouton croix d'un tag
         this.closeTag()
@@ -270,84 +228,49 @@ export default class dropdown{
 
     }
 
-    //tester
-    updateDisplayTagsDropdown(tab = this.recipes, sentenceSearchTag = "") {
-        //div recherche du dropdown
-        const ingredientsDropdown = document.querySelector(`.dropdown[data-filter="${this.nameDropdown}"] .dropdown__ingredient`)
-
-        //Tab des bouttons des tag 
-        const btnTags =  document.querySelectorAll(`.dropdown[data-filter="${this.nameDropdown}"] .dropdown__ingredient button`)
-
-        const ingredientsDropdownBtn = btnTags
-
-        console.log(ingredientsDropdownBtn)
-
-
-        //effacement des ancien tags
-           for (let i = 0; i < ingredientsDropdownBtn.length; i++) {
-                //console.log(ingredientsDropdownBtn.childNodes[i].childNodes[0].textContent)
-                console.log("jai supprimer "+ ingredientsDropdownBtn[i])
-                ingredientsDropdownBtn[i].remove()
-                //console.log(ingredientsDropdownBtn.childNodes[i])
-                
-            }
-
-        
-        //Creation des tags
-        for (let i = 0; i < this.findTags(tab).length; i++) {
-            if(this.findTags(tab)[i].includes(sentenceSearchTag.toLowerCase())){
-            const tagBtn = document.createElement("button")
-            const tagP = document.createElement("p")
-            tagP.textContent = this.findTags(tab)[i].toLowerCase()
-            tagBtn.ariaLabel = this.findTags(tab)[i].toLowerCase()
-            tagBtn.appendChild(tagP)
-            ingredientsDropdown.appendChild(tagBtn)
-            }
-            
-        }
-
-        this.tagsDropdown()
-
-    }
-
     //Au click sur un bouton tag
-    tagsDropdown() {
+    tagsDropdown(sentence = "") {
 
         //Tab des bouttons des tag 
         const btnTags =  document.querySelectorAll(`.dropdown[data-filter="${this.nameDropdown}"] .dropdown__ingredient button`)
-        //tester
-        console.log(btnTags.length)
 
-        for (const btnTag of btnTags) {
-            btnTag.addEventListener("click", () => { 
+        for(let i = 0 ; i < btnTags.length ; i++) {
+            //Si il y a une recherche par input
+            if(btnTags[i].childNodes[0].textContent === sentence.toLowerCase() && ![new tag().registerTagTabCopie()].includes(sentence.toLowerCase())){
                 
-                //Supprimer le boutton du drpdown
-                btnTag.remove()
-                //Creation de la div tag
-                new tag().displayTag(btnTag.ariaLabel, this.nameDropdown)
-
-                //tester
+                btnTags[i].remove()
+                new tag().displayTag(btnTags[i].ariaLabel, this.nameDropdown)
                 new searchRecipe(this.recipes).updateDisplay(new searchRecipe(this.recipes).Twocondition())
-            })    
+
+
+
+            } else {
+            btnTags[i].addEventListener("click", (e) => { 
+                //Supprimer le boutton du drpdown
+                btnTags[i].remove()
+
+                //Creation de la div tag
+                new tag().displayTag(btnTags[i].ariaLabel, this.nameDropdown)
+
+                new searchRecipe(this.recipes).updateDisplay(new searchRecipe(this.recipes).Twocondition())
+            })  
+        }
         }
             
     }
 
     //Au click de un bouton croix d'un tag 
     closeTag() {
-        const btnTag = document.querySelectorAll(`.tag__button button`)
+        const btnTag = document.querySelectorAll(`.tag[data-filter="${this.nameDropdown}"] .tag__button button`)
 
-        const Tag =  document.querySelectorAll(`.tag__button`)
-
-        for (let i = 0; i < btnTag.length; i++) {
-            btnTag[i].addEventListener("click", () => { 
-                console.log("jai toucher")
-                Tag[i].remove()
-                //tester
+        for (const btnTa of btnTag) {
+            btnTa.addEventListener("click", (e) => {
+                if(e.target.parentNode.parentNode.parentNode){
+                btnTa.parentNode.remove()
                 new searchRecipe(this.recipes).updateDisplay(new searchRecipe(this.recipes).Twocondition())
-            })   
-            
-            
+            }
+            })
         }
+
     }
 }

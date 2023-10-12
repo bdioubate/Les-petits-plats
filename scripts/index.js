@@ -13,16 +13,11 @@ function init() {
     new dropdown(recipes, "appliance").displayDropdown()
     new dropdown(recipes, "ustensils").displayDropdown()
 
-    //Udapte dropdown
-
     //Mise en forme des recettes
     new recipeSection(recipes).displayRecipe()
 
     //Mise a jour de la mise en forme des recettes
     new searchRecipe(recipes).displayNewRecipe()
-
-    //Mise a jour des recettes
-    //new searchRecipe(recipes).Twocondition()
 }
 
 init()
