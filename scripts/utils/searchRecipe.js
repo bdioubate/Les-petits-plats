@@ -10,7 +10,7 @@ export default class searchRecipe{
     }
 
     get recipes() {
-        return this._recipes
+        return this._recipes 
     }
 
     getSearchRecipe() { 
@@ -24,7 +24,7 @@ export default class searchRecipe{
 
     }
 
-    conditionWithRecipe(sentenceNewSearch = "", TabRecipe = this.recipes, nameDropdown = "", TabTags = []) { 
+    conditionWithRecipe(sentenceNewSearch = "", TabRecipe = this.recipes) { 
         //Copie entier du tableau des recettes
         const newRecipe = [...TabRecipe]
         
@@ -190,22 +190,6 @@ export default class searchRecipe{
         return this.recipes
     }
 
-    //A voir supprimer cette fonction ne sert a rien renvoie la meme chose
-    //fonctionnement de la section recipe_section
-    getRecipe(tabRecipe = this.recipes, newSearchRecipe = "") {
-
-        //Copie entier du tableau des recettes
-        const newRecipe = [...tabRecipe]
-
-        //Si le parametre et vide tableau ne change pas sinon on le modifie
-        if(newSearchRecipe === "") {
-            newRecipe
-
-        }
-        //retourne un nouveau tableau des recettes
-        return newRecipe
-    }
-
     updateDisplay(newRecipe = this.recipes, sentenceSearch = "") { 
         //Input de la recherche principale
         const champ = document.querySelector("input#search")
@@ -260,18 +244,18 @@ export default class searchRecipe{
 
     }
 
-    displayNewRecipe() { 
+    actionSearchBar() { 
         //Input de la recherche principale
         const champ = document.querySelector("input#search")
 
         
         //Au changement de l'input
-        champ.addEventListener("change", () => {
+        champ.addEventListener("keyup", () => {
 
             //La valeur du champ
             const sentence = champ.value
 
-            if(sentence.length > 0 ){
+            if(sentence.length >= 0 ){
                 this.updateDisplay(this.Twocondition())
             }
         })

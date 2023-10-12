@@ -35,23 +35,23 @@ export default class tag{
     }
 
     //Mise en forme des tags
-    displayTag(nom,name) {
+    displayTag(nomTag,nomDropdown) {
 
         //div tag du dropdown
-        const divTagDropdown = document.querySelector(`.tag[data-filter="${name}"]`)
+        const divTagDropdown = document.querySelector(`.tag[data-filter="${nomDropdown}"]`)
 
 
         //div du tag
         //const divTag = document.querySelector(`.tag[data-filter="${this.nameDropdown}"] .tag__button[data-filter="${this.nameTag}"]`)
         const divTag = document.createElement("div")
         divTag.setAttribute("class","tag__button")
-        divTag.dataset.filter = `${nom}`
+        divTag.dataset.filter = `${nomTag}`
         divTagDropdown.appendChild(divTag)
 
         //Le nom du tag
         //const pTag = document.querySelector(`.tag[data-filter="${this.nameDropdown}"] .tag__button[data-filter="${this.nameTag}"] p`)
         const pTag = document.createElement("p")
-        pTag.textContent = `${nom}`
+        pTag.textContent = `${nomTag}`
         divTag.appendChild(pTag)
 
         //Le boutton du tag

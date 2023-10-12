@@ -43,8 +43,7 @@ export default class dropdown{
                 btnDropdown.dataset.btn = "true";
             }
         })
-
-    }
+}
 
     closeDropdown() {
         //Boutton dropdown
@@ -67,8 +66,12 @@ export default class dropdown{
     //Mise en forme des dropdown
     displayDropdown(tab = this.recipes, sentenceSearchBar = "", sentenceSearchTag = "") {
 
+        
         //div search Dropdown
         this.showDropdown()
+
+        //Bar de recherche du dropdown
+        this.getSearchDropdown(tab)
 
         //div Dropdown ingredients
         this.displayTagsDropdown(tab,sentenceSearchBar,sentenceSearchTag)
@@ -79,7 +82,7 @@ export default class dropdown{
         //Input de la recherche principale
         const input = document.querySelector(`input#${this.nameDropdown}__search`)
 
-        input.addEventListener("change", () => {
+        input.addEventListener("input", () => {
 
             //Valeur du champ
         const sentence = input.value 
@@ -92,7 +95,7 @@ export default class dropdown{
             
         }
 
-            this.displayTagsDropdown(tab, "",sentence)
+            this.displayTagsDropdown(tab,undefined,sentence)
         })
         
         
@@ -215,15 +218,18 @@ export default class dropdown{
             
         }
 
+        //Test pour ces trois a deplacer
+        
         //Au click sur un bouton tag
         this.tagsDropdown(sentenceSearchBar)
 
         
         //Au changement de l'input efface les tagsqui correspond pas
-        this.getSearchDropdown(tab)
+        //this.getSearchDropdown(tab)
 
         //Au click d'un bouton croix d'un tag
         this.closeTag()
+        
 
 
     }
@@ -238,21 +244,25 @@ export default class dropdown{
             //Si il y a une recherche par input
             if(btnTags[i].childNodes[0].textContent === sentence.toLowerCase() && ![new tag().registerTagTabCopie()].includes(sentence.toLowerCase())){
                 
-                btnTags[i].remove()
+                btnTags[i].remove()  
                 new tag().displayTag(btnTags[i].ariaLabel, this.nameDropdown)
                 new searchRecipe(this.recipes).updateDisplay(new searchRecipe(this.recipes).Twocondition())
-
+                new searchRecipe(this.recipes).updateDisplay(new searchRecipe(this.recipes).Twocondition())
 
 
             } else {
             btnTags[i].addEventListener("click", (e) => { 
+                if(e.target.parentNode.parentNode) {
                 //Supprimer le boutton du drpdown
                 btnTags[i].remove()
+                //e.target.remove()
 
                 //Creation de la div tag
                 new tag().displayTag(btnTags[i].ariaLabel, this.nameDropdown)
 
                 new searchRecipe(this.recipes).updateDisplay(new searchRecipe(this.recipes).Twocondition())
+                new searchRecipe(this.recipes).updateDisplay(new searchRecipe(this.recipes).Twocondition())
+            }
             })  
         }
         }
@@ -268,9 +278,15 @@ export default class dropdown{
                 if(e.target.parentNode.parentNode.parentNode){
                 btnTa.parentNode.remove()
                 new searchRecipe(this.recipes).updateDisplay(new searchRecipe(this.recipes).Twocondition())
+                new searchRecipe(this.recipes).updateDisplay(new searchRecipe(this.recipes).Twocondition())
             }
             })
         }
 
     }
 }
+
+//A regler pourquoi je dois appeler la fonction 2 fois pour bien fonctionner la fermuture et ouverture des dropdown avec la fonction showDropdow: 
+//new searchRecipe(this.recipes).updateDisplay(new searchRecipe(this.recipes).Twocondition()) au fonctions : closeTag et tagDropdown
+//Je pense parce que la fonctionne s'apelle elle meme apres plusieurs a regler la sortie de la fonction bien separer les fonction
+//Ou soit les supprimer dropdown avant de les recreer

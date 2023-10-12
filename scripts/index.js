@@ -16,8 +16,8 @@ function init() {
     //Mise en forme des recettes
     new recipeSection(recipes).displayRecipe()
 
-    //Mise a jour de la mise en forme des recettes
-    new searchRecipe(recipes).displayNewRecipe()
+    //Action sur l'input principale
+    new searchRecipe(recipes).actionSearchBar()
 }
 
 init()
