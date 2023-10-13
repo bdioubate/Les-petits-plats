@@ -1,0 +1,23 @@
+#tag-content .tag{
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+    &__button{
+        width: 100%;
+        background-color: #FFD15B;
+        border-radius: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px;
+        & p{
+            text-align: center;
+        }
+        & button {
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+    }
+}

@@ -290,3 +290,5 @@ export default class dropdown{
 //new searchRecipe(this.recipes).updateDisplay(new searchRecipe(this.recipes).Twocondition()) au fonctions : closeTag et tagDropdown
 //Je pense parce que la fonctionne s'apelle elle meme apres plusieurs a regler la sortie de la fonction bien separer les fonction
 //Ou soit les supprimer dropdown avant de les recreer
+
+//Regler la mise a jour des tags dropdonw pendant la recherche d'un tag 

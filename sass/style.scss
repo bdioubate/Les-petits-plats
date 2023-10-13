@@ -1,3 +1,5 @@
 @use "./index";
 @use "./templates/recipeCard";
-@use "./utils/dropdown"
+@use "./templates/recipeSection";
+@use "./utils/dropdown";
+@use "./utils/tag"; 

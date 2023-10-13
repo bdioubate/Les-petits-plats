@@ -1,0 +1,31 @@
+#nb-recipes {
+    position: absolute;
+    top: 50px;
+    right: 100px;
+
+}
+
+#recipe_section {
+    display: flex;
+    margin: auto 0px 175px 0px;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    row-gap: 65px;
+}
+
+#recipe_section #no-recipe{
+    display: none;
+    width: 100%;
+}
+
+#recipe_section #no-recipe h3{
+    text-align: center;
+    font-size: 40px;
+}
+
+@media (max-width: 1040px) {
+    #nb-recipes {
+        right: 25px;
+    
+    }
+  }
