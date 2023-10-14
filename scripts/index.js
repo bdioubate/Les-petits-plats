@@ -2,7 +2,6 @@
 import { recipes } from "../data/recipes.js"
 
 
-
 // Action primaire du site
 
 /**
@@ -11,7 +10,51 @@ import { recipes } from "../data/recipes.js"
  * @param {string} sentence
  */
 const mainSearchTagAllDropdown = (sentence) => {
+    
 
+}
+
+/**
+ * renvoie un boolean, si le mot {sentence} correspond a un ingredient renvoie true
+ * 
+ */
+const filterIngredient = (listIngredients, sentence) => {
+    let boolean = false
+    listIngredients.forEach((element) => {
+        String(element.ingredient).toLowerCase().includes(String(sentence).toLowerCase())? boolean = true : null
+    })
+
+    return boolean
+}
+
+/**
+ * renvoie un array des recettes a supprimer
+ * @param {string} sentence
+ * @returns {Array} 
+ */
+const getArrayRecipeDelete = (sentence) => {
+    //Filtre les recettes et renvoie un array des recettes a supprimer
+    const deleteRecipeArray = recipes
+    .filter((recipe) => !(String(recipe.name).toLowerCase().includes(String(sentence).toLowerCase())))
+    ?.filter((recipe) => filterIngredient(recipe.ingredients, sentence) === false)
+    ?.filter((recipe) => !(String(recipe.description).toLowerCase().includes(String(sentence).toLowerCase())))
+
+    return deleteRecipeArray
+}
+
+/**
+ * renvoie un boolean, si la recette doit etre supprimer grace a son id
+ * 
+ */
+const filterRecipe = (listDeleteRecipeArray, recipeId) => {
+    let boolean = false
+    listDeleteRecipeArray.forEach((deleteRecipe) => {
+        console.log(deleteRecipe.id + " === " + recipeId)
+        deleteRecipe.id === recipeId ? boolean = true : null
+    })
+
+    console.log(boolean)
+    return boolean
 }
 
 /**
@@ -19,24 +62,17 @@ const mainSearchTagAllDropdown = (sentence) => {
  * le titre de la recette, 
  * la liste des ingrédients de la recette, 
  * ou la description de la recette 
- * 
  * @param {string} sentence
  * @returns {Array}
  */
-const searchRecipe = (sentence) => {
-    const recipeArray = []
+const gatArrayRecipe = (sentence) => {
 
-    return recipeArray
-}
+    //Les recettes a supprimer
+    const arrayRecipeDelete = getArrayRecipeDelete(sentence)
 
-/**
- * Renvoie un Array de recettes qui correspond au moins à un tag selectionnées
- * 
- * @returns {Array} 
- * 
- */
-const tagMatchRecipe = () => {
-    const recipeArray = []
+    //Les recette a gerder
+    const recipeArray = recipes.filter((recipe) => filterRecipe(arrayRecipeDelete,recipe.id) === false)
+
 
     return recipeArray
 }
@@ -51,6 +87,29 @@ const createTagArrayAllDropdown = () => {
     const tagArray = []
 
     return {tagArray}
+}
+
+/**
+ * Affiche les tags qui sont selectionées sur la page dans la section tag-content
+ * 
+ * @param {Array} tagArray
+ * 
+ */
+const displayAllTag = (tagArray) => {
+
+}
+
+
+/**
+ * Renvoie un Array de recettes qui correspond au moins à un tag selectionnées
+ * 
+ * @returns {Array} 
+ * 
+ */
+const tagMatchRecipe = () => {
+    const recipeArray = []
+
+    return recipeArray
 }
 
 /**
@@ -101,16 +160,6 @@ const displayAllTagDropdown = (tagDropdownArray) => {
 }
 
 /**
- * Affiche les tags qui sont selectionées sur la page dans la section tag-content
- * 
- * @param {Array} tagArray
- * 
- */
-const displayAllTag = (tagArray) => {
-
-}
-
-/**
  * Affiche un tag qui a été selectionées sur la page dans la section tag-content
  * 
  * @param {String} dataTag
@@ -121,10 +170,65 @@ const displayTag = (dataTag, dataDropdown) => {
 
 }
 
-// Actions primaire de l'utilisateur
+
+
+
+
+
+// Variable globales du site
+
+//Input de la recherche principale
+const input = document.getElementById("search")
+
+//Array des dropdowns
+const ArrayDropdowns = document.querySelectorAll(".dropdown")
+
+//Array de tous les tags qui sont selectionnés
+const arrayTags = document.querySelectorAll(".tag")
+
+
+
+
+
+
+// Actions primaire de l'utilisateur 
+
+//L'utilisateur rentre des caracteres dans la bar de recherche principale
+input.addEventListener("keyup", (e) => {
+
+  });
+
+  //L'utilisateur clique sur le bouton de la bar de recherche principale
+input.addEventListener("click", (e) => {
+
+});
+
+//L'utilisateur ajoute un tag
+ArrayDropdowns.forEach((dropdown) => {
+    //Array des tags d'un dropdown
+    const arrayTagsDropdown = dropdown.children[2]
+    arrayTagsDropdown.addEventListener("click", (e) => {
+
+    });
+});
+
+//L'utilisateur supprime un tag
+
+//Boucle sur la liste de tags selectionnés d'un dropdown 
+/*arrayTags.forEach((tag) => {
+        const btnCloseTag = tag.children[1]
+        btnCloseTag.addEventListener("click", (e) => {
+
+            });
+    
+});*/
+
+
+
 
 
 // Actions Secondaire du site
+//Rajouter fonction updateDisplayRecipe() CAR L’interface est actualisée avec les résultats de recherche !!
 
 
 /**
@@ -151,6 +255,9 @@ const updateDisplayTagDropdown = (sentence) => {
 }
 
 
+
+
+
 // Actions secondaire de l'utilisateur
 
 
@@ -161,8 +268,8 @@ const updateDisplayTagDropdown = (sentence) => {
  */
 const init = () => {
 
-
-    updateInit()
+    //Fonction principale qui fonctionne
+    console.log(gatArrayRecipe("lait de Coco"))
 }
 
 
@@ -173,6 +280,10 @@ const init = () => {
 const updateInit = () => {
 
 }
+
+
+
+
 
 //Declaration de la fonction globales principale du site
 
