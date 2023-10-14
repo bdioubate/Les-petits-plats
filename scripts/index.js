@@ -49,23 +49,20 @@ const getArrayRecipeDelete = (sentence) => {
 const filterRecipe = (listDeleteRecipeArray, recipeId) => {
     let boolean = false
     listDeleteRecipeArray.forEach((deleteRecipe) => {
-        console.log(deleteRecipe.id + " === " + recipeId)
         deleteRecipe.id === recipeId ? boolean = true : null
     })
-
-    console.log(boolean)
     return boolean
 }
 
 /**
- * Renvoie un Array de recettes qui contiennent au moins le mot {sentence} soit aux niveaux de : 
- * le titre de la recette, 
- * la liste des ingrédients de la recette, 
- * ou la description de la recette 
+ * Renvoie un Array de recettes qui contiennent au moins le mot entré par l'utilisateur aux niveaux : 
+ * du titre de la recette, 
+ * de la liste des ingrédients de la recette, 
+ * ou de la description de la recette 
  * @param {string} sentence
  * @returns {Array}
  */
-const gatArrayRecipe = (sentence) => {
+const getArrayRecipe = (sentence) => {
 
     //Les recettes a supprimer
     const arrayRecipeDelete = getArrayRecipeDelete(sentence)
@@ -83,47 +80,147 @@ const gatArrayRecipe = (sentence) => {
  * @returns {Object} 
  * 
  */
-const createTagArrayAllDropdown = () => {
-    const tagArray = []
+const createTagArray = () => {
 
-    return {tagArray}
+    const arrayTags = []
+
+    //Array de tous les tags qui sont selectionnés
+    const arrayDivTags = document.querySelectorAll(".tag")
+
+    //Boucle sur les div tags
+    arrayDivTags.forEach((divTag) => {
+        divTag?.forEach((tag) => {
+        const dataTag = tag.dataset.tag.textContent
+        const dataDropdown = tag.dataset.dropdown.textContent
+        
+        //Creation de l'objet tag
+        const ObjectTag = {
+            tag : String(dataTag),
+            dropdown : String(dataDropdown)
+        }
+
+        //Ajout l'objet tag a l'array
+        arrayTags.push(ObjectTag)
+        })
+        
+})
+
+    return {arrayTags}
 }
+
+
+
+
+/**
+ * supprime les tags selectionnés 
+ * 
+ */
+const deleteAllTag = () => {
+    //Array de tous les tags qui sont selectionnés
+    const tagContent = document.getElementById("tag-content")
+
+    //Boucle sur les div tags
+    /*arrayDivTags.forEach((divTag) => {
+        divTag?.forEach((tag) => {
+            HTMLDivElement(tag).remove()
+        })
+    })*/
+
+    tagContent.innerHTML = ``
+}
+
+
 
 /**
  * Affiche les tags qui sont selectionées sur la page dans la section tag-content
  * 
- * @param {Array} tagArray
- * 
  */
-const displayAllTag = (tagArray) => {
+const displayAllTag = () => {
+    //div tag-content
+    const tagContent = document.getElementById("tag-content")
+    //Recuperation des objects tags
+    const {tagArray} = createTagArray()
 
+    //Supression des tags selectionnés
+    deleteAllTag()
+
+    //Mise en forme des tags selectionés
+    tagArray.forEach((divTag) => {
+        const tag = document.querySelector(`#tag-content .tag[data-dropdown="${divTag.dropdown}"] .tag__button[data-tag="${divTag.tag}"][data-dropdown="${divTag.dropdown}"]`)
+        tag.innerHTML = `
+        <p>${divTag.tag}</p>
+        <button><i class="fa-solid fa-xmark fa-xl"></i></button>
+        `
+    })
 }
 
 
 /**
  * Renvoie un Array de recettes qui correspond au moins à un tag selectionnées
  * 
+ * @param {string} sentence
  * @returns {Array} 
  * 
- */
-const tagMatchRecipe = () => {
-    const recipeArray = []
+ *//*
+const tagMatchRecipe = (sentence) => {
 
-    return recipeArray
-}
+    const recipeArray = getArrayRecipe(sentence)
+    const tagArray = createTagArray()
+
+    const recipeAndTagArray = recipeArray.filter((recipe) => {
+        Object.entries(tagArray).some((tag) => Object.values(tag.tag) === `${recipe}.${Object.values(tag.tag)}`)
+    })
+
+    return recipeAndTagArray
+}*/
 
 /**
  * Renvoie l'Array principal des recettes qui correspond a l'array de la fonction searchRecipe et tagMatchRecipe
  * 
- * @param {Array} ArraySearchRecipe
- * @param {Array} ArraytagMatchRecipe
+ * @param {Array} ArraySearchRecipe Array de recettes qui contiennent au moins le mot entré par l'utilisateur aux niveaux : 
+ * du titre de la recette, 
+ * de la liste des ingrédients de la recette, 
+ * ou de la description de la recette 
+ * @param {Array} ArraytagMatchRecipe Array de recettes qui correspond au moins à un tag selectionnées
  * @returns {Array} 
  * 
  */
-const recipeArray = (ArraySearchRecipe, ArraytagMatchRecipe) => {
-    const tagArray = []
+const recipeArray = (ArraySearchRecipe, ArraytagMatchRecipe = recipes) => {
+    ArraySearchRecipe.map((searchRecipe) => {
+        ArraytagMatchRecipe.some((tagMatchRecipe) => tagMatchRecipe.id === searchRecipe.id) === true 
+    })
 
-    return tagArray
+    const arrayRecipe = [...ArraySearchRecipe]
+
+    return arrayRecipe
+}
+
+/**
+ * Supprime les recettes sur la page
+ * 
+ * @param {Array} recipeArray
+ * 
+ */
+const deleteAllRecipe = () => {
+    const recipeSection = getElementById("recipe_section")
+
+    recipeSection.innerHTML = ``
+}
+
+/**
+ * Affiche et ajoute les ingredients d'une recette dans article card-recipe sur la page
+ * 
+ */
+const displayAddIngredients = () => {
+
+}
+
+/**
+ * Affiche une recette dans section recipe_section sur la page
+ * 
+ */
+const displayRecipeCard = () => {
+
 }
 
 /**
@@ -132,8 +229,25 @@ const recipeArray = (ArraySearchRecipe, ArraytagMatchRecipe) => {
  * @param {Array} recipeArray
  * 
  */
-const displayRecipe = (recipeArray) => {
+const displayAllRecipe = (ArraySearchRecipe, ArraytagMatchRecipe = recipes) => {
+    const recipeSection = getElementById("recipe_section")
 
+    const recipeArray = recipeArray(ArraySearchRecipe, ArraytagMatchRecipe = recipes)
+
+    recipeArray.forEach((recipe) => {
+        const listIngredients = document.createElement("div")
+        listIngredients.setAttribute("class","card-recipe__text__ingredients__list")
+
+        Object.entries(recipe.ingredients).forEach((listIngredients) => {
+            //const = document
+            Object.values(listIngredients.ingredient)
+        })
+
+        const recipeCard = document.createElement("article")
+        recipeCard.setAttribute("class","card-recipe")
+
+        recipeSection.appendChild(recipeCard)
+    })
 }
 
 /**
@@ -169,10 +283,6 @@ const displayAllTagDropdown = (tagDropdownArray) => {
 const displayTag = (dataTag, dataDropdown) => {
 
 }
-
-
-
-
 
 
 // Variable globales du site
@@ -269,7 +379,7 @@ const updateDisplayTagDropdown = (sentence) => {
 const init = () => {
 
     //Fonction principale qui fonctionne
-    console.log(gatArrayRecipe("lait de Coco"))
+    console.log(recipeArray(getArrayRecipe("coco")))
 }
 
 
