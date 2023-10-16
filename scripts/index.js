@@ -85,23 +85,21 @@ const createTagArray = () => {
     const arrayTags = []
 
     //Array de tous les tags qui sont selectionnés
-    const arrayDivTags = document.querySelectorAll(".tag")
+    const arrayDivTags = document.querySelectorAll(".tag .tag__button")
 
     //Boucle sur les div tags
-    arrayDivTags.forEach((divTag) => {
-        divTag?.forEach((tag) => {
-        const dataTag = tag.dataset.tag.textContent
-        const dataDropdown = tag.dataset.dropdown.textContent
-        
-        //Creation de l'objet tag
-        const ObjectTag = {
-            tag : String(dataTag),
-            dropdown : String(dataDropdown)
-        }
+    arrayDivTags.forEach((tag) => {
+            const dataTag = tag.dataset.filter
+            const dataDropdown = tag.parentNode.dataset.filter
+            
+            //Creation de l'objet tag
+            const ObjectTag = {
+                tag : String(dataTag),
+                dropdown : String(dataDropdown)
+            }
 
-        //Ajout l'objet tag a l'array
-        arrayTags.push(ObjectTag)
-        })
+            //Ajout l'objet tag a l'array
+            arrayTags.push(ObjectTag)
         
 })
 
@@ -161,18 +159,53 @@ const displayAllTag = () => {
  * @param {string} sentence
  * @returns {Array} 
  * 
- *//*
+ */
 const tagMatchRecipe = (sentence) => {
 
     const recipeArray = getArrayRecipe(sentence)
     const tagArray = createTagArray()
 
-    const recipeAndTagArray = recipeArray.filter((recipe) => {
-        Object.entries(tagArray).some((tag) => Object.values(tag.tag) === `${recipe}.${Object.values(tag.tag)}`)
-    })
+    //const recipeAndTagArray = recipeArray.filter((recipe) => (Object.values(tagArray)[0].some((tag) => (recipe[`${tag.dropdown}`] === tag.tag))) === true )                                 /*.some((tag) => console.log(tag.tag === recipe[`${tag.dropdown}`]))*/
 
+    const recipeAndTagArray = recipeArray.filter((recipe) => boolTagMatchRecipe(recipe,tagArray) === true)
+    console.log(recipeAndTagArray)
     return recipeAndTagArray
-}*/
+}
+
+/**
+ * Renvoie un Array de recettes qui correspond au moins à un tag selectionnées
+ * @param {object} recipe 
+ * @param {object} objectTag
+ * @returns {boolean} 
+ * 
+ */
+const boolTagMatchRecipe = (recipe,objectTag) => {
+    let p 
+    let nameObject, nameStrings
+    Object.values(objectTag).filter((tag) => (
+    
+    p = tag.every((t) => (
+
+            typeof recipe[`${t.dropdown}`] === ("string") ?
+            (recipe[`${t.dropdown}`].toLowerCase() === t.tag.toLowerCase()) === true
+            :  
+                typeof recipe[`${t.dropdown}`] === ("object") ?
+                    recipe[`${t.dropdown}`].some((tagt) => (tagt.toLowerCase() === t.tag.toLowerCase()) === true)
+                :   
+                    
+                         (
+                            nameObject = t.dropdown.split("-")[0],
+                            nameStrings = t.dropdown.split("-")[1],
+                            filterIngredient(recipe[`${nameObject}`], nameStrings) !== true
+                         )
+                    
+                    
+                   //console.log(recipe[`${t.dropdown}`]) : null
+        ) === true) 
+         /*console.log(recipe[`${t.dropdown}`].toLowerCase() /*console.log(t.tag.toLowerCase()))*/
+    ))
+    return p 
+}
 
 /**
  * Renvoie l'Array principal des recettes qui correspond a l'array de la fonction searchRecipe et tagMatchRecipe
@@ -320,20 +353,20 @@ const laneTags = (nameDropdown) => {
 }
 
 
-const findTags = (nameDropdown) => {
+const findTags = (nameDropdown,tab = recipes) => {
         let tags = []
         //chemin des tags
         if(laneTags(nameDropdown).length === 1 ){
             //nom de la propriete de l'objet
             const nameProperty = laneTags(nameDropdown)[0]
 
-           tags = typeTags(nameProperty)
+           tags = typeTags(nameProperty, tab)
         } else if(laneTags(nameDropdown).length === 2 ){
             
             //nom des proprietes de l'objet
             const nameProperty = laneTags(nameDropdown)[0]
             const namePropertyChild = laneTags(nameDropdown)[1]
-            const objectParentProperty = typeTags(nameProperty)
+            const objectParentProperty = typeTags(nameProperty,tab)
            tags = typeTags(namePropertyChild, objectParentProperty)
         }
         return tags
@@ -375,10 +408,21 @@ const typeTags = (tag, tab = recipes) => {
  * @returns {Object}
  * 
  */
-const getAllTagDropdownMatchRecipe = (recipeArray) => {
-    const tagDropdownArray = []
+const getAllTagDropdownMatchRecipe = (tab = recipes) => {
 
-    return {tagDropdownArray}
+    const arrayDropdown = document.querySelectorAll(".dropdown")
+
+    arrayDropdown.forEach((dropdown) => { 
+        const divDropdownTag = document.querySelector(`.dropdown[data-filter="${dropdown.dataset.filter}"] .dropdown__tags`) 
+        findTags(dropdown.dataset.filter).forEach((tag) => {
+            const button = document.createElement("button")
+            button.ariaLabel = tag
+            button.innerHTML = `
+            <p>${tag}</p>
+            `
+            divDropdownTag.appendChild(button)
+        })
+    })
 }
 
 
@@ -402,12 +446,13 @@ const getTagDropdownArray = () => {
  * @param {Object} arrayNameTagDropdown
  * 
  */
-const displayAllTagDropdown = () => {
+const displayAllTagDropdown = (tab = recipes) => {
     const arrayDropdown = document.querySelectorAll(".dropdown")
 
     arrayDropdown.forEach((dropdown) => { 
         const divDropdownTag = document.querySelector(`.dropdown[data-filter="${dropdown.dataset.filter}"] .dropdown__tags`)
-        findTags(dropdown.dataset.filter).forEach((tag) => {
+        divDropdownTag.innerHTML = ``
+        findTags(dropdown.dataset.filter,tab).forEach((tag) => {
             const button = document.createElement("button")
             button.ariaLabel = tag
             button.innerHTML = `
@@ -426,7 +471,18 @@ const displayAllTagDropdown = () => {
  * 
  */
 const displayTag = (dataTag, dataDropdown) => {
+    const tagDivDropdown = document.querySelector(`.tag[data-filter="${dataDropdown}"]`)
 
+    const btnTag = document.createElement("div")
+    btnTag.setAttribute("class","tag__button")
+    btnTag.dataset.filter = dataTag
+    btnTag.innerHTML = `
+        <p>${dataTag}</p>
+        <button>
+            <i class="fa-solid fa-xmark fa-xl"></i>
+        </button>
+    `
+    tagDivDropdown.appendChild(btnTag)
 }
 
 
@@ -459,22 +515,24 @@ input.addEventListener("keyup", (e) => {
     sentence.length > 2 ?
         init(sentence)
     :
-        null
+        init("")
 })
 
   //L'utilisateur clique sur le bouton de la bar de recherche principale
 input.addEventListener("click", (e) => {
 
 });
-
 //L'utilisateur ajoute un tag
 ArrayDropdowns.forEach((dropdown) => {
     //Array des tags d'un dropdown
-    const arrayTagsDropdown = dropdown.children[2]
+    const arrayTagsDropdown = dropdown
     arrayTagsDropdown.addEventListener("click", (e) => {
-
-    });
-});
+        e.target.ariaLabel ?
+            displayTag(e.target.ariaLabel,e.target.parentNode.parentNode.dataset.filter)
+        :
+            null
+    })
+})
 
 //L'utilisateur supprime un tag
 
@@ -493,6 +551,7 @@ ArrayDropdowns.forEach((dropdown) => {
 
 // Actions Secondaire du site
 //Rajouter fonction updateDisplayRecipe() CAR L’interface est actualisée avec les résultats de recherche !!
+
 
 
 /**
@@ -527,16 +586,18 @@ const updateDisplayTagDropdown = (sentence) => {
 //L'utilisateur clique sur un dropdown
     ArrayBtnDropdowns.forEach((dropdown) => {
         dropdown.addEventListener("click", (e) => {
-            console.log(e.target)
+            //console.log(e.target)
             e.target.dataset.btn ?
                 e.target.dataset.btn === "true" ?
-                    e.target.dataset.btn = "false"
+                    e.target.dataset.btn = "false" 
                         :
-                    e.target.dataset.btn = "true" 
+                    e.target.dataset.btn = "true"  
                     :
                 null
         })
     })
+
+    
 
 
 /**
@@ -547,13 +608,11 @@ const updateDisplayTagDropdown = (sentence) => {
 const init = (a = "") => {
 
     //Fonction principale qui fonctionne
-    displayAllRecipe(getArrayRecipe(a))
-    
-    //console.log(findTags("ingredients-ingredient"))
-    //console.log(findTags("appliance"))
-    displayAllTagDropdown()
-    //(getTagDropdownArray())
-    //dropdownClick()
+    /*displayAllRecipe(getArrayRecipe(a))
+    displayAllTagDropdown(getArrayRecipe(a))
+    console.log(createTagArray())*/
+    displayAllRecipe(tagMatchRecipe(a))
+    displayAllTagDropdown(tagMatchRecipe(a))
 }
 
 
