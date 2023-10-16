@@ -26,6 +26,7 @@
 }
 
 #dropdown-content .dropdown__search {
+    display: none;
     height: 55px;
     place-items: center;
     position: relative;
@@ -54,9 +55,19 @@
 }
 
 #dropdown-content .dropdown__tags{
+    display: none;
     max-height: 190px;
     overflow: scroll;
 }
+
+/*
+#dropdown-content .dropdown__btn[data-btn="false"] .dropdown__search, #dropdown-content .dropdown__btn[data-btn="false"] .dropdown__tags{
+    display: none;
+}
+#dropdown-content .dropdown__btn[data-btn="true"] .dropdown__search{
+}
+#dropdown-content .dropdown__btn[data-btn="true"] .dropdown__tags{   
+}*/
 
 #dropdown-content .dropdown__tags button{
     width: 100%;

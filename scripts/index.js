@@ -205,22 +205,74 @@ const deleteAllRecipe = () => {
     const recipeSection = getElementById("recipe_section")
 
     recipeSection.innerHTML = ``
+    //recipeSection.remove()
 }
 
 /**
  * Affiche et ajoute les ingredients d'une recette dans article card-recipe sur la page
+ * @param {Array} arrayListIngredients
+ * @returns {HTMLDivElement} 
  * 
  */
-const displayAddIngredients = () => {
+const displayAddIngredients = (arrayListIngredients) => {
+    const newArrayList = [...arrayListIngredients]
 
+    const divListIngredients = document.createElement("div")
+    divListIngredients.setAttribute("class","card-recipe__text__ingredients__list")
+
+    newArrayList.forEach((elm) => {
+        const listIngredients = document.createElement("div")
+        listIngredients.setAttribute("class","card-recipe__text__ingredients__list__ingredient")
+        listIngredients.dataset.tag = elm.ingredient
+        listIngredients.innerHTML = `
+            <h5>${elm.ingredient}</h5>
+            <p>${elm.quantity} ml</p>
+        `
+        divListIngredients.appendChild(listIngredients)
+    })
+
+    return divListIngredients
 }
 
 /**
  * Affiche une recette dans section recipe_section sur la page
- * 
+ * @param {Array} arrayRecipe
  */
-const displayRecipeCard = () => {
+const displayRecipeCard = (arrayRecipe) => {
+    const newArrayRecipe = arrayRecipe
 
+    const article = document.createElement("article")
+    article.setAttribute("class","card-recipe")
+    article.dataset.recipe = newArrayRecipe.name
+
+    /*const a = displayAddIngredients(newArrayRecipe.ingredients)
+    const b = document.createElement("div")
+    b.setAttribute("class","card-recipe__text__ingredients__list")
+    b.appendChild(a)*/
+    const a = displayAddIngredients(newArrayRecipe.ingredients)
+
+    article.innerHTML = `
+    <article class="card-recipe">
+        <figure class="card-recipe__figure"><div class="card-recipe__figure__encart">
+            <p>${newArrayRecipe.time}min</p></div>
+            <img class="card-recipe__figure__img" src="./assets/recipes/${newArrayRecipe.image}">
+            <figcaption class="card-recipe__figure__figcaption">
+                <h3>${newArrayRecipe.name}</h3>
+            </figcaption>
+        </figure><div class="card-recipe__text">
+        <div class="card-recipe__text__recette">
+        <h4>RECETTE</h4><p>${newArrayRecipe.description}</p>
+        </div>
+        <div class="card-recipe__text__ingredients">
+            <h4>INGRÉDIENTS</h4>
+            <div class="card-recipe__text__ingredients__list">
+            ${a}
+            </div>
+        </div>
+        </article>
+    `
+
+    return article
 }
 
 /**
@@ -230,25 +282,91 @@ const displayRecipeCard = () => {
  * 
  */
 const displayAllRecipe = (ArraySearchRecipe, ArraytagMatchRecipe = recipes) => {
-    const recipeSection = getElementById("recipe_section")
 
-    const recipeArray = recipeArray(ArraySearchRecipe, ArraytagMatchRecipe = recipes)
+    //deleteAllRecipe()
 
-    recipeArray.forEach((recipe) => {
-        const listIngredients = document.createElement("div")
-        listIngredients.setAttribute("class","card-recipe__text__ingredients__list")
+    const recipeSection = document.getElementById("recipe_section")
 
-        Object.entries(recipe.ingredients).forEach((listIngredients) => {
-            //const = document
-            Object.values(listIngredients.ingredient)
-        })
+    //Suppression des articles
+    recipeSection.innerHTML = ``
 
-        const recipeCard = document.createElement("article")
-        recipeCard.setAttribute("class","card-recipe")
+    //const recipeArray = recipeArray(ArraySearchRecipe, ArraytagMatchRecipe)
+
+    /*recipeArray*/recipeArray(ArraySearchRecipe, ArraytagMatchRecipe).forEach((recipe) => {
+        const recipeCard = displayRecipeCard(recipe)
 
         recipeSection.appendChild(recipeCard)
     })
+
+    return recipeSection
 }
+
+//Obtenir le chemin des tags
+const laneTags = (nameDropdown) => {
+
+        //creation de l'objetNameType
+        const names = []
+
+        if(nameDropdown.indexOf('-')) {
+            for (let i = 0; i < nameDropdown.split('-').length; i++) {
+                Object(names).push(nameDropdown.split('-')[i])
+                
+            }
+        } else {
+            names.push(nameDropdown)
+        }
+
+        return names
+}
+
+
+const findTags = (nameDropdown) => {
+        let tags = []
+        //chemin des tags
+        if(laneTags(nameDropdown).length === 1 ){
+            //nom de la propriete de l'objet
+            const nameProperty = laneTags(nameDropdown)[0]
+
+           tags = typeTags(nameProperty)
+        } else if(laneTags(nameDropdown).length === 2 ){
+            
+            //nom des proprietes de l'objet
+            const nameProperty = laneTags(nameDropdown)[0]
+            const namePropertyChild = laneTags(nameDropdown)[1]
+            const objectParentProperty = typeTags(nameProperty)
+           tags = typeTags(namePropertyChild, objectParentProperty)
+        }
+        return tags
+}
+
+
+const typeTags = (tag, tab = recipes) => {
+        const nameTags = []
+
+        for (const recipe of tab) {
+            //nom de la propriete de l'objet
+            const nameProperty = recipe[`${tag}`]
+
+            if(typeof nameProperty === "string") {
+                nameTags.includes(nameProperty.toLowerCase()) ? 
+                    null 
+                    :
+                    nameTags.push(nameProperty.toLowerCase())    
+            }else {
+                for (const tags of nameProperty) {
+                    nameTags.includes(tags) ? 
+                    null 
+                    :
+                    nameTags.push(tags) 
+                }
+            }
+
+        }
+        //console.log(nameTags)
+        return nameTags
+
+}
+
 
 /**
  * Renvoie un array de tous les tags des differents dropdown qui correspond au recette(s) selectionée(s)
@@ -263,14 +381,41 @@ const getAllTagDropdownMatchRecipe = (recipeArray) => {
     return {tagDropdownArray}
 }
 
+
 /**
  * Affiche les tags dans les différents dropdown sur la page
  * 
- * @param {Object} tagDropdownArray
+ * @returns {Object}
  * 
  */
-const displayAllTagDropdown = (tagDropdownArray) => {
+const getTagDropdownArray = () => {
+    const arrayDropdown = document.querySelectorAll(".dropdown")
 
+    const arrayNameTagDropdown = Object.values(arrayDropdown).map((dropdown) => findTags(dropdown.dataset.filter))
+
+    return arrayNameTagDropdown
+}
+
+/**
+ * Affiche les tags dans les différents dropdown sur la page
+ * 
+ * @param {Object} arrayNameTagDropdown
+ * 
+ */
+const displayAllTagDropdown = () => {
+    const arrayDropdown = document.querySelectorAll(".dropdown")
+
+    arrayDropdown.forEach((dropdown) => { 
+        const divDropdownTag = document.querySelector(`.dropdown[data-filter="${dropdown.dataset.filter}"] .dropdown__tags`)
+        findTags(dropdown.dataset.filter).forEach((tag) => {
+            const button = document.createElement("button")
+            button.ariaLabel = tag
+            button.innerHTML = `
+            <p>${tag}</p>
+            `
+            divDropdownTag.appendChild(button)
+        })
+    })
 }
 
 /**
@@ -290,8 +435,11 @@ const displayTag = (dataTag, dataDropdown) => {
 //Input de la recherche principale
 const input = document.getElementById("search")
 
-//Array des dropdowns
+//Array des boutons dropdowns
 const ArrayDropdowns = document.querySelectorAll(".dropdown")
+
+//Array des dropdowns
+const ArrayBtnDropdowns = document.querySelectorAll(".dropdown__btn")
 
 //Array de tous les tags qui sont selectionnés
 const arrayTags = document.querySelectorAll(".tag")
@@ -303,10 +451,16 @@ const arrayTags = document.querySelectorAll(".tag")
 
 // Actions primaire de l'utilisateur 
 
+//Fonctionne
 //L'utilisateur rentre des caracteres dans la bar de recherche principale
 input.addEventListener("keyup", (e) => {
-
-  });
+    //La valeur de l'input
+    const sentence = e.target.value
+    sentence.length > 2 ?
+        init(sentence)
+    :
+        null
+})
 
   //L'utilisateur clique sur le bouton de la bar de recherche principale
 input.addEventListener("click", (e) => {
@@ -370,16 +524,36 @@ const updateDisplayTagDropdown = (sentence) => {
 
 // Actions secondaire de l'utilisateur
 
+//L'utilisateur clique sur un dropdown
+    ArrayBtnDropdowns.forEach((dropdown) => {
+        dropdown.addEventListener("click", (e) => {
+            console.log(e.target)
+            e.target.dataset.btn ?
+                e.target.dataset.btn === "true" ?
+                    e.target.dataset.btn = "false"
+                        :
+                    e.target.dataset.btn = "true" 
+                    :
+                null
+        })
+    })
+
 
 /**
  * Fonction globale principale du site
  * Mise en forme et fonctionnement de la page index.html
  * @param {function updateInit() {}}
  */
-const init = () => {
+const init = (a = "") => {
 
     //Fonction principale qui fonctionne
-    console.log(recipeArray(getArrayRecipe("coco")))
+    displayAllRecipe(getArrayRecipe(a))
+    
+    //console.log(findTags("ingredients-ingredient"))
+    //console.log(findTags("appliance"))
+    displayAllTagDropdown()
+    //(getTagDropdownArray())
+    //dropdownClick()
 }
 
 

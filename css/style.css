@@ -227,6 +227,7 @@ img.card-recipe__figure__img {
 }
 
 #dropdown-content .dropdown__search {
+  display: none;
   height: 55px;
   place-items: center;
   position: relative;
@@ -254,12 +255,21 @@ img.card-recipe__figure__img {
   color: #C6C6C6;
 }
 
-#dropdown-content .dropdown__ingredient {
+#dropdown-content .dropdown__tags {
+  display: none;
   max-height: 190px;
   overflow: scroll;
 }
 
-#dropdown-content .dropdown__ingredient button {
+/*
+#dropdown-content .dropdown__btn[data-btn="false"] .dropdown__search, #dropdown-content .dropdown__btn[data-btn="false"] .dropdown__tags{
+    display: none;
+}
+#dropdown-content .dropdown__btn[data-btn="true"] .dropdown__search{
+}
+#dropdown-content .dropdown__btn[data-btn="true"] .dropdown__tags{   
+}*/
+#dropdown-content .dropdown__tags button {
   width: 100%;
   background: none;
   border: none;
@@ -267,7 +277,7 @@ img.card-recipe__figure__img {
   cursor: pointer;
 }
 
-#dropdown-content .dropdown__ingredient button p {
+#dropdown-content .dropdown__tags button p {
   text-align: start;
   color: #1B1B1B;
   font-size: 14px;
