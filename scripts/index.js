@@ -1,25 +1,6 @@
 //Importation de la class principale des recettes
 import { recipes } from "../data/recipes.js"
 
-
-/*
-// Variable globales du site
-
-//Input de la recherche principale
-const input = document.getElementById("search")
-
-//Array des boutons dropdowns
-const ArrayDropdowns = document.querySelectorAll(".dropdown")
-
-//Array des dropdowns
-const ArrayBtnDropdowns = document.querySelectorAll(".dropdown__btn")
-
-//Array de tous les tags qui sont selectionnés
-const arrayTags = document.querySelectorAll(".tag__button")
-
-const tagContent = document.querySelectorAll(`#tag-content .tag`)*/
-
-
 // Action primaire du site
 
 const closeTag = () => {
@@ -38,7 +19,6 @@ const arrayTags = document.querySelectorAll(".tag__button")
             (
                 sentence = input.value,
                 e.target.parentNode.parentNode.remove(),
-                //e.parentNode.parentNode.remove(),
                 init(sentence)
             )
             : null
@@ -48,7 +28,7 @@ const arrayTags = document.querySelectorAll(".tag__button")
     })
 }
 
-/*
+/* 
 const actionDropdown = (a) => {
 
 //Array des dropdowns
@@ -191,8 +171,6 @@ const createTagArray = () => {
 const deleteAllTag = () => {
     //Array de tous les tags qui sont selectionnés
     const tagContent = document.querySelectorAll(`#tag-content .tag`)
-    /*tagContent.forEach((tag) => tag.innerHTML = ``)
-    console.log(tagContent)*/
 
     //Boucle sur les div tags
     tagContent.forEach((divTag) => {
@@ -216,13 +194,12 @@ const displayAllTag = () => {
 
     //Supression des tags selectionnés
     deleteAllTag()
-    //console.log(tagArray.length)
+
     arrayTags.length > 0 ?
     //Mise en forme des tags selectionés
     arrayTags.forEach((divTag) => {
 
         const tagContent1 = document.querySelector(`#tag-content .tag[data-filter="${divTag.dropdown}"]`)
-        //(`#tag-content .tag[data-filter="${divTag.dropdown}"]`)
         const tag = document.createElement("div")
         tag.setAttribute("class","tag__button")
         tag.dataset.filter = divTag.tag
@@ -306,20 +283,6 @@ const recipeArray = (ArraySearchRecipe, ArraytagMatchRecipe = recipes) => {
     return arrayRecipe
 }
 
-/*
-/**
- * Supprime les recettes sur la page
- * 
- * @param {Array} recipeArray
- * 
- *//*
-const deleteAllRecipe = () => {
-    const recipeSection = getElementById("recipe_section")
-
-    recipeSection.innerHTML = ``
-    //recipeSection.remove()
-}*/
-
 /**
  * Affiche et ajoute les ingredients d'une recette dans article card-recipe sur la page
  * @param {Array} arrayListIngredients
@@ -357,10 +320,6 @@ const displayRecipeCard = (arrayRecipe) => {
     article.setAttribute("class","card-recipe")
     article.dataset.recipe = newArrayRecipe.name
 
-    /*const a = displayAddIngredients(newArrayRecipe.ingredients)
-    const b = document.createElement("div")
-    b.setAttribute("class","card-recipe__text__ingredients__list")
-    b.appendChild(a)*/
     const a = displayAddIngredients(newArrayRecipe.ingredients)
 
     article.innerHTML = `
@@ -402,8 +361,6 @@ const displayAllRecipe = (ArraySearchRecipe, ArraytagMatchRecipe = recipes) => {
     //Suppression des articles
     recipeSection.innerHTML = ``
 
-    //const recipeArray = recipeArray(ArraySearchRecipe, ArraytagMatchRecipe)
-
     recipeArray(ArraySearchRecipe, ArraytagMatchRecipe).forEach((recipe) => {
         const recipeCard = displayRecipeCard(recipe)
 
@@ -416,8 +373,58 @@ const displayAllRecipe = (ArraySearchRecipe, ArraytagMatchRecipe = recipes) => {
 
     displayAllTagDropdown(newRecipeArray)
 
+    updateNbRecipe(newRecipeArray)
+
+    showMessage(newRecipeArray)
+
     return {newRecipeArray}
 }
+
+//Affiche le message quand la recherche ne trouva pas de recette
+/**
+ * @param {object} arrayRecipe
+ */
+const showMessage = (arrayRecipe) => {
+    const nbRecipe = arrayRecipe.length
+
+    const recipeSection = document.getElementById("recipe_section")
+
+    const divMessage = document.createElement("div")
+    divMessage.setAttribute("id","no-recipe")
+
+    const h3 = document.createElement("h3")
+
+    const input = document.getElementById("search")
+
+    const sentence = input.value
+
+    nbRecipe === 0 ? 
+    (
+            h3.textContent = `
+        « Aucune recette ne contient ‘${sentence}’ vous pouvez chercher « tarte aux pommes », « poisson », etc.
+        `,
+        divMessage.style.display = "block",
+        divMessage.appendChild(h3),
+        recipeSection.appendChild(divMessage))
+    :
+        (null)
+        
+
+}
+
+
+//Met a jour le nombre de cette recette sur la page
+/**
+ * @param {object} arrayRecipe
+ */
+const updateNbRecipe = (arrayRecipe) => {
+    const nbRecipe = arrayRecipe.length
+
+    const divNbRecipe = document.querySelector("#nb-recipes h2 span")
+    divNbRecipe.innerHTML = ``
+    divNbRecipe.textContent = nbRecipe
+}
+
 
 //Obtenir le chemin des tags
 const laneTags = (nameDropdown) => {
@@ -487,47 +494,6 @@ const typeTags = (tag, tab = recipes) => {
 
 
 /**
- * Renvoie un array de tous les tags des differents dropdown qui correspond au recette(s) selectionée(s)
- * 
- * @param {Array} recipeArray
- * @returns {Object}
- * 
- */
-const getAllTagDropdownMatchRecipe = (tab = recipes) => {
-
-    const arrayDropdown = document.querySelectorAll(".dropdown")
-
-    arrayDropdown.forEach((dropdown) => { 
-        const divDropdownTag = document.querySelector(`.dropdown[data-filter="${dropdown.dataset.filter}"] .dropdown__tags`) 
-        findTags(dropdown.dataset.filter).forEach((tag) => {
-            const button = document.createElement("button")
-            button.ariaLabel = tag
-            button.innerHTML = `
-            <p>${tag}</p>
-            `
-            divDropdownTag.appendChild(button)
-        })
-    })
-}
-
-
-/**
- * Affiche les tags dans les différents dropdown sur la page
- * 
- * @returns {Object}
- * 
- */
-/*
-const getTagDropdownArray = () => {
-    const arrayDropdown = document.querySelectorAll(".dropdown")
-
-    const arrayNameTagDropdown = Object.values(arrayDropdown).map((dropdown) => findTags(dropdown.dataset.filter))
-
-    return arrayNameTagDropdown
-}*/
-
-
-/**
  * Verifie si le tag d'un dropdown n'est pas affiché
  * 
  * @param {Object} object
@@ -551,8 +517,6 @@ const displayAllTagDropdown = (tab = recipes) => {
     const arrayDropdown = document.querySelectorAll(".dropdown")
 
     const tagsArray = createTagArray()
-    //Object.values(tagsArray)[0][0] ? 
-    //console.log(`${Object.values(tagsArray)[0][0].tag} - ${Object.values(tagsArray)[0][0].dropdown}`) : null
 
     arrayDropdown.forEach((dropdown) => { 
         const divDropdownTag = document.querySelector(`.dropdown[data-filter="${dropdown.dataset.filter}"] .dropdown__tags`)
@@ -563,19 +527,21 @@ const displayAllTagDropdown = (tab = recipes) => {
                 verifTagDropdown(Object.values(tagsArray)[0], `${tag} - ${dropdown.dataset.filter}`) === true ? 
                     null
                 :
-                    (//const button = document.createElement("button"),
+                    (
                     button.ariaLabel = tag,
                     button.innerHTML = `
                     <p>${tag}</p>
                     `,
-                    divDropdownTag.appendChild(button))
+                    divDropdownTag.appendChild(button)
+                    )
             :
-                (//const button = document.createElement("button"),
+                (
                 button.ariaLabel = tag,
                 button.innerHTML = `
                 <p>${tag}</p>
                 `,
-                divDropdownTag.appendChild(button))
+                divDropdownTag.appendChild(button)
+                )
         })
     })
 }
@@ -603,31 +569,15 @@ const displayTag = (dataTag, dataDropdown) => {
 }
 
 
-
-// Variable globales du site
-/*
-//Input de la recherche principale
-const input = document.getElementById("search")
-
-//Array des boutons dropdowns
-const ArrayDropdowns = document.querySelectorAll(".dropdown")
-
-//Array des dropdowns
-const ArrayBtnDropdowns = document.querySelectorAll(".dropdown__btn")
-
-//Array de tous les tags qui sont selectionnés
-const arrayTags = document.querySelectorAll(".tag__button")
-*/
-
 /**
  * Fonction globale principale du site
  * Mise en forme et fonctionnement de la page index.html
- * @param {function updateInit() {}}
+ * @param {string} a
  */
 const init = (a = "") => {
     
     
-        // Variable globales du site
+// Variable globales du site
 
 //Input de la recherche principale
 const input = document.getElementById("search")
@@ -659,7 +609,6 @@ const inputDropdown  = document.querySelectorAll(".dropdown__search")
     :
         a = ""
 
-    //displayAllTag()
     displayAllRecipe(tagMatchRecipe(a))
     closeTag()
 
@@ -668,28 +617,6 @@ const inputDropdown  = document.querySelectorAll(".dropdown__search")
 
 const {input,ArrayDropdowns,ArrayBtnDropdowns,arrayTags, tagContent,tagContentSection,t,btnInput,inputDropdown} = init()
 
-
-
-// Actions primaire de l'utilisateur 
-/* utilisateur
-//Boucle sur la liste de tags selectionnés d'un dropdown 
-arrayTags.forEach((tag) => {
-    const btnCloseTag = tag.children[1]
-    console.log(btnCloseTag)
-    btnCloseTag.addEventListener("click", (e) => {
-        e.target ?
-        (console.log(e.target.parentNode.parentNode),
-        e.target.parentNode.parentNode.remove(),
-        console.log(createTagArray()),
-        
-        tagContent.forEach((tag) => tag.innerHTML = ``),
-
-        init(input.value))
-        : null
-
-    })
-
-})*/
 
 //Fonctionne
 //L'utilisateur rentre des caracteres dans la bar de recherche principale
@@ -706,7 +633,6 @@ btnInput.addEventListener("click", (e) => {
     const {newRecipeArray} = displayAllRecipe(tagMatchRecipe(sentence))
 
     const {arrayTags} = createTagArray()
-    // arrayTags.some((e) => (e.tag === sentence) === true )
 
     ArrayDropdowns.forEach((dropdown) => {
         const result = arrayTags.some((e) => (e.tag === sentence) &&  (e.dropdown === dropdown.dataset.filter) === true )
@@ -723,8 +649,6 @@ btnInput.addEventListener("click", (e) => {
                     null
             )
     })
-    //findTags
-
 })
 
 //L'utilisateur ajoute un tag
@@ -752,108 +676,22 @@ ArrayDropdowns.forEach((dropdown) => {
 ArrayDropdowns.forEach((dropdown) => {
     const newInput = dropdown.children[1].children[0]
     newInput.addEventListener("keyup", (e) => {
-        //console.log(e.target.parentNode.parentNode.children[3])
         const allBtn = e.target.parentNode.nextSibling.nextSibling.children
-        Object(allBtn).forEach((button) => {
-            console.log(button)
+        Object.values(allBtn).forEach((button) => {
+            const inputValue = e.target.value
+            const btnValue = button.ariaLabel
+            const result = (btnValue.includes(inputValue))
+            result === true ?
+                button.style.display = "block"
+            :
+                button.style.display = "none"
         })
     })
     
 })
 
-/*
-input.addEventListener("keyup", (e) => {
-    //La valeur de l'input
-    const sentence = e.target.value
-        init(sentence)
-})*/
-
-//L'utilisateur supprime un tag bangali
-/*
-//Boucle sur la liste de tags selectionnés d'un dropdown 
-arrayTags.forEach((tag) => {
-    const btnCloseTag = tag.children[1]
-    btnCloseTag.addEventListener("click", (e) => {
-        let sentence
-        e.target ?
-        (
-            sentence = input.value,
-            console.log(sentence),
-            e.parentNode.parentNode.remove(),
-            init(sentence)
-        )
-        : null
-
-    })
-
-})*/
-
-/*Object.values(tagContentSection.children).forEach((tag) => {
-    console.log(tag.children)
-})*/
-
-/*
-
-const tagContentSection = document.getElementById(`tag-content`)
-Object.values(tagContentSection.children).forEach((tag) => {
-    console.log(tag.children)
-})
-
-*/
-/*
-tagContent.forEach((tag1) => {
-    console.log("ban")
-    let btnCloseTag
-Object.values(tagContentSection.children).forEach((tag) => {
-    tag.children[0] ? 
-        (console.log(tag.children[0].children[1]), 
-        btnCloseTag = tag.children[0].children[1],
-        btnCloseTag.addEventListener("click", (e) => {
-            let sentence
-            e.target ?
-            (
-                sentence = input.value,
-                console.log(sentence),
-                e.parentNode.parentNode.remove(),
-                init(sentence)
-            )
-            : null
-
-        }))
-    :
-        console.log("lion")
-})
-})*/
-
-
-
-/* DOUBLON
-//L'utilisateur supprime un tag bangali
-
-//Boucle sur la liste de tags selectionnés d'un dropdown 
-arrayTags.forEach((tag) => {
-    const btnCloseTag = tag.children[1]
-    console.log(btnCloseTag)
-    btnCloseTag.addEventListener("click", (e) => {
-        e.target ?
-        (console.log(e.target.parentNode.parentNode),
-        e.target.parentNode.parentNode.remove(),
-        console.log(createTagArray()),
-
-        init(input.value))
-        : null
-
-    })
-
-})
-*/
-
-
 
 // Actions Secondaire du site
-//Rajouter fonction updateDisplayRecipe() CAR L’interface est actualisée avec les résultats de recherche !!
-
-
 
 /**
  * renvoie un Array des tags d'un dropdown qui correspond a la phrase ecrit via l'input de la recherche d'un dropdown 
@@ -879,45 +717,15 @@ const updateDisplayTagDropdown = (sentence) => {
 }
 
 
-
-
-
-// Actions secondaire de l'utilisateur
-/*
-//L'utilisateur clique sur un dropdown
-ArrayBtnDropdowns.forEach((dropdown) => {
-    dropdown.addEventListener("click", (e) => {
-        e.target.dataset.btn ?
-            e.target.dataset.btn === "true" ?
-                e.target.dataset.btn = "false" 
-                    :
-                e.target.dataset.btn = "true"  
-                :
-            null
-    })
-})
-*/
-
-
-
-
-
-
-
-/**
- * Fonction globale secondaire du site
- * Mise a jour de la mise en forme et fonctionnement de la page index.html
- */
-const updateInit = () => {
-
-}
-
-
-
-
-
 //Declaration de la fonction globales principale du site
 
 init()
 
 
+//A regler
+//les balise p dans les btn tag remplacer par span ou autre
+//au clique des dropdown open or close 
+//les ingredients des card de recette
+//regler pour le probleme saladier
+//mettre dans les differents fichiers
+//mettre les reglege pour le bon affichage sur mobile comme ohmyfood

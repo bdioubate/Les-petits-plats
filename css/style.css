@@ -185,7 +185,6 @@ img.card-recipe__figure__img {
 }
 
 #recipe_section #no-recipe {
-  display: none;
   width: 100%;
 }
 
@@ -277,6 +276,7 @@ img.card-recipe__figure__img {
   text-align: start;
   color: #1B1B1B;
   font-size: 14px;
+  width: fit-content;
 }
 
 #tag-content .tag {
