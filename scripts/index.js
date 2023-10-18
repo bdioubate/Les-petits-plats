@@ -1,74 +1,6 @@
 //Importation de la class principale des recettes
 import { recipes } from "../data/recipes.js"
 
-// Action primaire du site
-
-const closeTag = () => {
-    //Input de la recherche principale
-const input = document.getElementById("search")
-
-//Array de tous les tags qui sont selectionnés
-const arrayTags = document.querySelectorAll(".tag__button")
-
-    //Boucle sur la liste de tags selectionnés d'un dropdown 
-    arrayTags.forEach((tag) => {
-        const btnCloseTag = tag.children[1]
-        btnCloseTag.addEventListener("click", (e) => {
-            let sentence
-            e.target ?
-            (
-                sentence = input.value,
-                e.target.parentNode.parentNode.remove(),
-                init(sentence)
-            )
-            : null
-
-        })
-
-    })
-}
-
-/* 
-const actionDropdown = (a) => {
-
-//Array des dropdowns
-//const a = document.querySelectorAll(".dropdown__btn")
-    
-//L'utilisateur clique sur un dropdown
-a.forEach((dropdown) => {
-    let bool = false
-    dropdown.addEventListener("click", (e) => {
-        e.target.dataset.btn ?
-            e.target.dataset.btn === "true" ?
-                (e.target.dataset.btn = "false",
-                console.log(e.target.parentNode),
-                bool = true)
-                //e.target.parentNode.style.display = "none")
-                //e.target.style.borderRadius = "10px";
-                    :
-                    bool === true ? 
-                    (e.target.dataset.btn = "true",
-                    console.log(e.target.parentNode+" bb"),
-                    //e.target.parentNode.style.display = "grid") 
-                    bool=true)
-                    : null
-                :
-            null
-    })
-})
-
-}*/
-
-/**
- * Cherche un tag sur tous les dropdown via l'input de la recherche principale
- * 
- * @param {string} sentence
- */
-const mainSearchTagAllDropdown = (sentence) => {
-    
-
-}
-
 /**
  * renvoie un boolean, si le mot {sentence} correspond a un ingredient renvoie true
  * 
@@ -294,6 +226,8 @@ const displayAddIngredients = (arrayListIngredients) => {
 
     const divListIngredients = document.createElement("div")
     divListIngredients.setAttribute("class","card-recipe__text__ingredients__list")
+    
+
 
     newArrayList.forEach((elm) => {
         const listIngredients = document.createElement("div")
@@ -306,7 +240,7 @@ const displayAddIngredients = (arrayListIngredients) => {
         divListIngredients.appendChild(listIngredients)
     })
 
-    return divListIngredients
+    return {divListIngredients}
 }
 
 /**
@@ -320,27 +254,30 @@ const displayRecipeCard = (arrayRecipe) => {
     article.setAttribute("class","card-recipe")
     article.dataset.recipe = newArrayRecipe.name
 
-    const a = displayAddIngredients(newArrayRecipe.ingredients)
+    const {divListIngredients} = displayAddIngredients(newArrayRecipe.ingredients)
 
     article.innerHTML = `
-    <article class="card-recipe">
-        <figure class="card-recipe__figure"><div class="card-recipe__figure__encart">
-            <p>${newArrayRecipe.time}min</p></div>
+        <figure class="card-recipe__figure">
+            <div class="card-recipe__figure__encart">
+                <p>${newArrayRecipe.time}min</p>
+            </div>
             <img class="card-recipe__figure__img" src="./assets/recipes/${newArrayRecipe.image}">
             <figcaption class="card-recipe__figure__figcaption">
                 <h3>${newArrayRecipe.name}</h3>
             </figcaption>
-        </figure><div class="card-recipe__text">
-        <div class="card-recipe__text__recette">
-        <h4>RECETTE</h4><p>${newArrayRecipe.description}</p>
-        </div>
-        <div class="card-recipe__text__ingredients">
-            <h4>INGRÉDIENTS</h4>
-            <div class="card-recipe__text__ingredients__list">
-            ${a}
+        </figure>
+        <div class="card-recipe__text">
+            <div class="card-recipe__text__recette">
+                <h4>RECETTE</h4>
+                <p>${newArrayRecipe.description}</p>
             </div>
-        </div>
-        </article>
+            <div class="card-recipe__text__ingredients">
+                <h4>INGRÉDIENTS</h4>
+    <span>${article.appendChild(divListIngredients)}</span>
+    ${article.innerHTML +=`
+    </div>
+    </div>
+    `}
     `
 
     return article
@@ -432,14 +369,18 @@ const laneTags = (nameDropdown) => {
         //creation de l'objetNameType
         const names = []
 
-        if(nameDropdown.indexOf('-')) {
+        /*if(nameDropdown.indexOf('-')) {
             for (let i = 0; i < nameDropdown.split('-').length; i++) {
                 Object(names).push(nameDropdown.split('-')[i])
                 
             }
         } else {
             names.push(nameDropdown)
-        }
+        }*/
+        nameDropdown.indexOf('-') ? 
+            nameDropdown.split('-').forEach((oneName) => Object(names).push(oneName))
+        :
+            names.push(nameDropdown)
 
         return names
 }
@@ -447,8 +388,11 @@ const laneTags = (nameDropdown) => {
 
 const findTags = (nameDropdown,tab = recipes) => {
         let tags = []
+        let nameProperty
+        let namePropertyChild
+        let objectParentProperty
         //chemin des tags
-        if(laneTags(nameDropdown).length === 1 ){
+        /*if(laneTags(nameDropdown).length === 1 ){
             //nom de la propriete de l'objet
             const nameProperty = laneTags(nameDropdown)[0]
 
@@ -460,7 +404,28 @@ const findTags = (nameDropdown,tab = recipes) => {
             const namePropertyChild = laneTags(nameDropdown)[1]
             const objectParentProperty = typeTags(nameProperty,tab)
            tags = typeTags(namePropertyChild, objectParentProperty)
-        }
+        }*/
+
+        laneTags(nameDropdown).length === 1 ?
+            (
+                //nom de la propriete de l'objet
+                nameProperty = laneTags(nameDropdown)[0],
+                tags = typeTags(nameProperty, tab)
+            )
+        :
+            laneTags(nameDropdown).length === 2 ?
+                    (
+                        //nom des proprietes de l'objet
+                        nameProperty = laneTags(nameDropdown)[0],
+                        namePropertyChild = laneTags(nameDropdown)[1],
+                        objectParentProperty = typeTags(nameProperty,tab),
+                        tags = typeTags(namePropertyChild, objectParentProperty)
+                    )
+            :
+                null
+
+                
+
 
         const unique = []
         tags.forEach((tag) => {
@@ -474,9 +439,11 @@ const findTags = (nameDropdown,tab = recipes) => {
 const typeTags = (tag, tab = recipes) => {
         const nameTags = []
 
-        for (const recipe of tab) {
+        /*for (const recipe of tab) {
+            console.log(recipe)
             //nom de la propriete de l'objet
             const nameProperty = recipe[`${tag}`]
+            console.log(nameProperty)
 
                 if(typeof nameProperty === "string") {
                     nameTags.includes(nameProperty.toLowerCase()) ? 
@@ -487,7 +454,21 @@ const typeTags = (tag, tab = recipes) => {
                     nameProperty.forEach((tags) => nameTags.includes(tags) ? null : nameTags.push(tags))
                 }
 
-        }
+        }*/
+
+        tab.forEach((recipe) => {
+            //nom de la propriete de l'objet
+            const nameProperty = recipe[`${tag}`]
+
+            typeof nameProperty === "string" ?
+                nameTags.includes(nameProperty.toLowerCase()) ? 
+                null 
+                :
+                nameTags.push(nameProperty.toLowerCase())
+            :
+                nameProperty.forEach((tags) => nameTags.includes(tags) ? null : nameTags.push(tags))
+
+        })
         return nameTags
 
 }
@@ -507,6 +488,16 @@ const verifTagDropdown = (arrayObject, string) => {
     return bool
 }
 
+const clearInput = () => {
+    //Array des boutons dropdowns
+    const ArrayDropdowns = document.querySelectorAll(".dropdown")
+
+    ArrayDropdowns.forEach((dropdown) => {
+        const newInput = dropdown.children[1].children[0]
+        newInput.value = ""
+    })
+}
+
 /**
  * Affiche les tags dans les différents dropdown sur la page
  * 
@@ -515,6 +506,7 @@ const verifTagDropdown = (arrayObject, string) => {
  */
 const displayAllTagDropdown = (tab = recipes) => {
     const arrayDropdown = document.querySelectorAll(".dropdown")
+    clearInput()
 
     const tagsArray = createTagArray()
 
@@ -568,15 +560,32 @@ const displayTag = (dataTag, dataDropdown) => {
     tagDivDropdown.appendChild(btnTag)
 }
 
+const closeTag = () => {
+    //Input de la recherche principale
+const input = document.getElementById("search")
 
-/**
- * Fonction globale principale du site
- * Mise en forme et fonctionnement de la page index.html
- * @param {string} a
- */
-const init = (a = "") => {
-    
-    
+//Array de tous les tags qui sont selectionnés
+const arrayTags = document.querySelectorAll(".tag__button")
+
+    //Boucle sur la liste de tags selectionnés d'un dropdown 
+    arrayTags.forEach((tag) => {
+        const btnCloseTag = tag.children[1]
+        btnCloseTag.addEventListener("click", (e) => {
+            let sentence
+            e.target ?
+            (
+                sentence = input.value,
+                e.target.parentNode.parentNode.remove(),
+                init(sentence)
+            )
+            : null
+
+        })
+
+    })
+}
+
+
 // Variable globales du site
 
 //Input de la recherche principale
@@ -602,6 +611,51 @@ const t = document.querySelectorAll(`#tag-content`)
 
 const inputDropdown  = document.querySelectorAll(".dropdown__search")
 
+/*const actionDropdown = () => {
+
+//Array des dropdowns
+const a = document.querySelectorAll(".dropdown__btn")
+    
+//L'utilisateur clique sur un dropdown
+a.forEach((dropdown) => {
+    dropdown.addEventListener("click", (e) => {
+        e.target.dataset.btn ?
+            e.target.dataset.btn !== "true" ?
+                (
+                e.target.parentNode.children[1].style.display = "none",
+                e.target.parentNode.children[2].style.display = "none",
+                e.target.style.borderRadius = "10px",
+                e.target.dataset.btn = "true")
+                    :
+                    (
+                    e.target.parentNode.children[1].style.display = "grid",
+                    e.target.parentNode.children[2].style.display = "grid",
+                    e.target.dataset.btn = "false"
+                    )
+                :
+                e.target.parentNode.dataset.btn !== "true" ?
+                (
+                e.target.parentNode.parentNode.children[1].style.display = "none",
+                e.target.parentNode.parentNode.children[2].style.display = "none",
+                e.target.parentNode.style.borderRadius = "10px",
+                e.target.parentNode.dataset.btn = "true")
+                    :
+                    (
+                    e.target.parentNode.parentNode.children[1].style.display = "grid",
+                    e.target.parentNode.parentNode.children[2].style.display = "grid",
+                    e.target.parentNode.dataset.btn = "false"
+                    )
+    })
+})
+}
+
+/**
+ * Fonction globale principale du site
+ * Mise en forme et fonctionnement de la page index.html
+ * @param {string} a
+ */
+const init = (a = "") => {
+
     const sentence = a
 
     sentence.length > 2 ?
@@ -610,15 +664,8 @@ const inputDropdown  = document.querySelectorAll(".dropdown__search")
         a = ""
 
     displayAllRecipe(tagMatchRecipe(a))
-    closeTag()
-
-    return {input,ArrayDropdowns,ArrayBtnDropdowns,arrayTags, tagContent, tagContentSection,t,btnInput,inputDropdown}
 }
 
-const {input,ArrayDropdowns,ArrayBtnDropdowns,arrayTags, tagContent,tagContentSection,t,btnInput,inputDropdown} = init()
-
-
-//Fonctionne
 //L'utilisateur rentre des caracteres dans la bar de recherche principale
 input.addEventListener("keyup", (e) => {
     //La valeur de l'input
@@ -667,11 +714,22 @@ ArrayDropdowns.forEach((dropdown) => {
                 
             )
         :
-            null
+            (
+                e.target.parentNode.ariaLabel ?
+                    (
+                    sentence = input.value,
+                    e.target.parentNode.style.backgroundColor = "blue",
+                    displayTag(e.target.parentNode.ariaLabel,e.target.parentNode.parentNode.parentNode.dataset.filter),
+                    init(sentence),
+                    e.target.parentNode.remove()
+                    )
+                :
+                        null
+                
+            )
     })
 })
 
-//reprendre la
 //L'utilisateur rentre des caracteres dans la bar des dropdown
 ArrayDropdowns.forEach((dropdown) => {
     const newInput = dropdown.children[1].children[0]
@@ -691,41 +749,63 @@ ArrayDropdowns.forEach((dropdown) => {
 })
 
 
-// Actions Secondaire du site
+//L'utilisateur clique sur un dropdown
+ArrayBtnDropdowns.forEach((dropdown) => {
+    dropdown.addEventListener("click", (e) => {
+        e.target.dataset.btn ?
+            e.target.dataset.btn !== "true" ?
+                (
+                e.target.parentNode.children[1].style.display = "none",
+                e.target.parentNode.children[2].style.display = "none",
+                e.target.style.borderRadius = "10px",
+                e.target.dataset.btn = "true")
+                    :
+                    (
+                    e.target.parentNode.children[1].style.display = "grid",
+                    e.target.parentNode.children[2].style.display = "grid",
+                    e.target.dataset.btn = "false"
+                    )
+        :
+            e.target.parentNode.dataset.btn !== "true" ?
+                (
+                e.target.parentNode.parentNode.children[1].style.display = "none",
+                e.target.parentNode.parentNode.children[2].style.display = "none",
+                e.target.parentNode.style.borderRadius = "10px",
+                e.target.parentNode.dataset.btn = "true"
+                )
+            :
+                (
+                e.target.parentNode.parentNode.children[1].style.display = "grid",
+                e.target.parentNode.parentNode.children[2].style.display = "grid",
+                e.target.parentNode.dataset.btn = "false"
+                )
+    })
+})
 
-/**
- * renvoie un Array des tags d'un dropdown qui correspond a la phrase ecrit via l'input de la recherche d'un dropdown 
- * 
- * @param {String} sentence
- * @returns {object} 
- * 
- */
-const dropdownSearchTagDropdown = (sentence) => {
-    const tagDropdownArray = []
 
-    return {tagDropdownArray}
-}
+/*
+//Boucle sur la liste de tags selectionnés d'un dropdown 
+tagContent.forEach((tagArray) => {
+    console.log(typeof tagArray.children)
+//arrayTags
+Object.values(tagArray.children).forEach((tag) => {
+    const btnCloseTag = tag.children[1]
+    btnCloseTag.addEventListener("click", (e) => {
+        let sentence
+        e.target ?
+        (
+            console.log("zzzzzzzzzzzzzz"),
+            sentence = input.value,
+            e.target.parentNode.parentNode.remove(),
+            init(sentence)
+        )
+        : null
 
-/**
- * Met a jour l'afffichage des tags d'un dropdown 
- * 
- * @param {Array} sentence
- * 
- */
-const updateDisplayTagDropdown = (sentence) => {
+    })
 
-}
-
-
+})
+})*/
+ 
 //Declaration de la fonction globales principale du site
 
 init()
-
-
-//A regler
-//les balise p dans les btn tag remplacer par span ou autre
-//au clique des dropdown open or close 
-//les ingredients des card de recette
-//regler pour le probleme saladier
-//mettre dans les differents fichiers
-//mettre les reglege pour le bon affichage sur mobile comme ohmyfood

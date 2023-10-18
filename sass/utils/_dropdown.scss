@@ -26,7 +26,7 @@
 }
 
 #dropdown-content .dropdown__search {
-    display: grid;
+    //display: none;
     height: 55px;
     place-items: center;
     position: relative;
@@ -55,7 +55,7 @@
 }
 
 #dropdown-content .dropdown__tags{
-    display: grid;
+    //display: none;
     max-height: 190px;
     overflow: scroll;
 }

@@ -146,6 +146,10 @@ img.card-recipe__figure__img {
   row-gap: 15px;
 }
 
+.card-recipe__text__ingredients span {
+  display: none;
+}
+
 .card-recipe__text__recette p {
   height: 75px;
   overflow: hidden;
@@ -226,7 +230,6 @@ img.card-recipe__figure__img {
 }
 
 #dropdown-content .dropdown__search {
-  display: grid;
   height: 55px;
   place-items: center;
   position: relative;
@@ -255,7 +258,6 @@ img.card-recipe__figure__img {
 }
 
 #dropdown-content .dropdown__tags {
-  display: grid;
   max-height: 190px;
   overflow: scroll;
 }
