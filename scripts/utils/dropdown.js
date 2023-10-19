@@ -1,3 +1,7 @@
+//Importation de la class principale des recettes
+    //recipe.js
+    import { createTagArray } from "../utils/tag.js"
+
 //Dropdown
 //Obtenir le chemin des tags
 const laneTags = (nameDropdown) => {
@@ -22,7 +26,7 @@ const laneTags = (nameDropdown) => {
 }
 
 //Dropdown
-const findTags = (nameDropdown,tab = recipes) => {
+export const findTags = (nameDropdown,tab = recipes) => {
     let tags = []
     let nameProperty
     let namePropertyChild

@@ -6,7 +6,7 @@
  * renvoie un boolean, si le mot {sentence} correspond a un ingredient renvoie true
  * searchRecipe
  */
-const filterIngredient = (listIngredients, sentence) => {
+export const filterIngredient = (listIngredients, sentence) => {
     let boolean = false
     listIngredients.forEach((element) => {
         String(element.ingredient).toLowerCase().includes(String(sentence).toLowerCase())? boolean = true : null

@@ -1,6 +1,8 @@
 //Importation de la class principale des recettes
     //recipeSearch.js
-    import { getArrayRecipe } from "./searchRecipe.js"
+    import { getArrayRecipe, filterIngredient  } from "./searchRecipe.js"
+    //recipeSearch.js
+    import { init } from "../index.js"
 
 /**
  * Renvoie un Array des tags selectionnés 
@@ -8,7 +10,7 @@
  * @returns {Object} 
  * 
  */
-const createTagArray = () => {
+export const createTagArray = () => {
 
     const arrayTags = []
 
@@ -65,9 +67,13 @@ export const displayAllTag = () => {
     //Supression des tags selectionnés
     deleteAllTag()
 
+    const tagContent2 = document.querySelectorAll(`#tag-content .tag`)
+    //Input de la recherche principale
+    const input = document.getElementById("search")
+
     arrayTags.length > 0 ?
     //Mise en forme des tags selectionés
-    arrayTags.forEach((divTag) => {
+    (arrayTags.forEach((divTag) => {
 
         const tagContent1 = document.querySelector(`#tag-content .tag[data-filter="${divTag.dropdown}"]`)
         const tag = document.createElement("div")
@@ -75,11 +81,28 @@ export const displayAllTag = () => {
         tag.dataset.filter = divTag.tag
         tag.innerHTML = `
         <p>${divTag.tag}</p>
-        <button><i class="fa-solid fa-xmark fa-xl"></i></button>
+        <button">
+            <i class="fa-solid fa-xmark fa-xl"></i>
+        </button>
         `
         tagContent1.appendChild(tag)
         
-    }) : null
+    }),
+    
+    Array.from(tagContent2).forEach((azerty) => {
+        Array.from(azerty.children).forEach((azerty1) => {
+            azerty1.children.length > 0?
+            azerty1.children[1].addEventListener("click", (e) =>{
+                const sentence = input.value
+                e.target.parentNode.parentNode.remove()
+                init(sentence)
+            })
+             : 
+             null
+        })
+    })
+    )
+    : null
 }
 
 
@@ -140,7 +163,7 @@ const boolTagMatchRecipe = (recipe,objectTag) => {
  * @param {String} dataDropdown
  * 
  */
-const displayTag = (dataTag, dataDropdown) => {
+export const displayTag = (dataTag, dataDropdown) => {
     const tagDivDropdown = document.querySelector(`.tag[data-filter="${dataDropdown}"]`)
 
     const btnTag = document.createElement("div")
@@ -179,4 +202,8 @@ const arrayTags = document.querySelectorAll(".tag__button")
         })
 
     })
+}
+
+export function myFonction() {
+    console.log("azerty")
 }

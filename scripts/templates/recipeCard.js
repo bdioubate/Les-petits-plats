@@ -19,7 +19,7 @@ const displayAddIngredients = (arrayListIngredients) => {
         listIngredients.dataset.tag = elm.ingredient
         listIngredients.innerHTML = `
             <h5>${elm.ingredient}</h5>
-            <p>${elm.quantity} ml</p>
+            <p>${elm.quantity?elm.quantity:""} ${elm.unit?elm.unit:""}</p>
         `
         divListIngredients.appendChild(listIngredients)
     })

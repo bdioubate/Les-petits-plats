@@ -7,6 +7,8 @@
     import { recipeArray } from "../utils/searchRecipe.js"
     //recipeCard.js
     import { displayRecipeCard } from "./recipeCard.js"
+    //dropdown.js
+    import { displayAllTagDropdown } from "../utils/dropdown.js" 
 /**
  * Affiche les recettes sur la page
  * RecipeSection

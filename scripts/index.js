@@ -1,14 +1,14 @@
 //Importation de la class principale des recettes
-    //recipe.js
-    import { recipes } from "../data/recipes.js"
-    //recipeCard.js
-    import { displayRecipeCard } from "./templates/recipeCard.js"
-    //dropdown.js 
-    import { displayAllTagDropdown } from "./utils/dropdown.js"
     //recipeSection.js
     import {displayAllRecipe} from "./templates/recipeSection.js"
     //tag.js
-    import { tagMatchRecipe  } from "./utils/tag.js"
+    import { tagMatchRecipe, displayTag, createTagArray } from "./utils/tag.js"
+    //dropdown.js
+    import { findTags } from "./utils/dropdown.js"
+
+    function myFonction() {
+        console.log("azerty")
+    }
 
 
 // Variable globales du site
@@ -80,7 +80,7 @@ a.forEach((dropdown) => {
  * @param {string} a
  */
 
-const init = (sentence = "") => {
+export const init = (sentence = "") => {
 
     //const sentence = a
 
@@ -178,31 +178,31 @@ ArrayDropdowns.forEach((dropdown) => {
 ArrayBtnDropdowns.forEach((dropdown) => {
     dropdown.addEventListener("click", (e) => {
         e.target.dataset.btn ?
-            e.target.dataset.btn !== "true" ?
+            e.target.dataset.btn === "true" ?
                 (
                 e.target.parentNode.children[1].style.display = "none",
                 e.target.parentNode.children[2].style.display = "none",
                 e.target.style.borderRadius = "10px",
-                e.target.dataset.btn = "true")
+                e.target.dataset.btn = "false")
                     :
                     (
                     e.target.parentNode.children[1].style.display = "grid",
                     e.target.parentNode.children[2].style.display = "grid",
-                    e.target.dataset.btn = "false"
+                    e.target.dataset.btn = "true"
                     )
         :
-            e.target.parentNode.dataset.btn !== "true" ?
+            e.target.parentNode.dataset.btn === "true" ?
                 (
                 e.target.parentNode.parentNode.children[1].style.display = "none",
                 e.target.parentNode.parentNode.children[2].style.display = "none",
                 e.target.parentNode.style.borderRadius = "10px",
-                e.target.parentNode.dataset.btn = "true"
+                e.target.parentNode.dataset.btn = "false"
                 )
             :
                 (
                 e.target.parentNode.parentNode.children[1].style.display = "grid",
                 e.target.parentNode.parentNode.children[2].style.display = "grid",
-                e.target.parentNode.dataset.btn = "false"
+                e.target.parentNode.dataset.btn = "true"
                 )
     })
 })
@@ -230,6 +230,34 @@ Object.values(tagArray.children).forEach((tag) => {
 
 })
 })*/
+
+/*
+const azerty = document.querySelectorAll(".tag")
+const az = []
+
+azerty.forEach((aze) => {
+    aze.children?
+    (az.push(aze.children),
+    console.log(az),
+    //(aze.children[0]).forEach((azer) => console.log(azer))
+    Object.values(aze.children).forEach((azertyu) => {
+        /*azertyu.children?
+        console.log(azertyu.length)/*
+    : 
+        null
+    }),
+    console.log(aze.children?aze.children:null)
+    )
+    : 
+        null
+    /*aze.children[2].addEventListener("click" , (e) => {
+        console.log(e.target)
+    })
+})*/
+
+
+
+
  
 //Declaration de la fonction globales principale du site
 
