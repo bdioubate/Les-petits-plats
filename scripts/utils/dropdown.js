@@ -23,6 +23,7 @@ export default class dropdown{
     }
 
     showDropdown() {
+        /*
         //Boutton dropdown
         const btnDropdown = document.querySelector(`.dropdown[data-filter="${this.nameDropdown}"] .dropdown__btn`)
 
@@ -30,10 +31,41 @@ export default class dropdown{
         const searchDropdown = document.querySelector(`.dropdown[data-filter="${this.nameDropdown}"] .dropdown__search`)
 
         //div recherche du dropdown
-        const ingredientsDropdown = document.querySelector(`.dropdown[data-filter="${this.nameDropdown}"] .dropdown__ingredient`)
+        const ingredientsDropdown = document.querySelector(`.dropdown[data-filter="${this.nameDropdown}"] .dropdown__ingredient`)*/
+
+        //Boutton dropdown
+        const dropdown = document.querySelectorAll(`.dropdown`)
+        dropdown.forEach((elm) => {
+            //Array.from(elm.children).forEach((elmChild) => console.log(elmChild))
+            const btnDropdown1 = elm.children[0]
+            const searchDropdown1 = elm.children[1]
+            const ingredientsDropdown1 = elm.children[2]
+            btnDropdown1.addEventListener("click", (e) => {
+                if(btnDropdown1.dataset.btn === "true") {
+                    searchDropdown1.style.display = "none";
+                    ingredientsDropdown1.style.display = "none";
+                    btnDropdown1.style.borderRadius = "10px";
+                    btnDropdown1.dataset.btn = "false";
+                } else{
+                    searchDropdown1.style.display = "grid";
+                    ingredientsDropdown1.style.display = "block";
+                    btnDropdown1.style.borderRadius = " 10px 10px 0 0";
+                    btnDropdown1.dataset.btn = "true";
+                }
+            })
+
+
+        })
+        /*const btnDropdown = document.querySelectorAll(`.dropdown .dropdown__btn`)
+
+        //div recherche du dropdown
+        const searchDropdown = document.querySelectorAll(`.dropdown .dropdown__search`)
+
+        //div recherche du dropdown
+        const ingredientsDropdown = document.querySelectorAll(`.dropdown .dropdown__ingredient`)*/
 
         //Au click boutton dropdown
-        btnDropdown.addEventListener("click", () => {
+        /*btnDropdown.addEventListener("click", () => {
             if(btnDropdown.dataset.btn === "true") {
                 this.closeDropdown()
             } else{
@@ -42,7 +74,7 @@ export default class dropdown{
                 btnDropdown.style.borderRadius = " 10px 10px 0 0";
                 btnDropdown.dataset.btn = "true";
             }
-        })
+        })*/
 }
 
     closeDropdown() {
@@ -64,7 +96,7 @@ export default class dropdown{
     }
 
     //Mise en forme des dropdown
-    displayDropdown(tab = this.recipes, sentenceSearchBar = "", sentenceSearchTag = "") {
+    displayDropdown(tab, sentenceSearchBar = "", sentenceSearchTag = "") {
 
         
         //div search Dropdown
@@ -78,7 +110,7 @@ export default class dropdown{
 
     }
 
-    getSearchDropdown(tab = this.recipes) {
+    getSearchDropdown(tab) {
         //Input de la recherche principale
         const input = document.querySelector(`input#${this.nameDropdown}__search`)
 
@@ -169,7 +201,8 @@ export default class dropdown{
 
     }
 
-    displayTagsDropdown(tab = this.recipes, sentenceSearchBar = "", sentenceSearchTag = "") {
+    displayTagsDropdown(tab, sentenceSearchBar = "", sentenceSearchTag = "") {
+
         //Champ de l'input prinicipale
         const champ = document.getElementById("input#search")
 
@@ -240,6 +273,8 @@ export default class dropdown{
         //Tab des bouttons des tag 
         const btnTags =  document.querySelectorAll(`.dropdown[data-filter="${this.nameDropdown}"] .dropdown__ingredient button`)
 
+        const btnDropdown =  document.querySelector(`.dropdown[data-filter="${this.nameDropdown}"] .dropdown__btn`)
+
         for(let i = 0 ; i < btnTags.length ; i++) {
             //Si il y a une recherche par input
             if(btnTags[i].childNodes[0].textContent === sentence.toLowerCase() && ![new tag().registerTagTabCopie()].includes(sentence.toLowerCase())){
@@ -247,7 +282,8 @@ export default class dropdown{
                 btnTags[i].remove()  
                 new tag().displayTag(btnTags[i].ariaLabel, this.nameDropdown)
                 new searchRecipe(this.recipes).updateDisplay(new searchRecipe(this.recipes).Twocondition())
-                new searchRecipe(this.recipes).updateDisplay(new searchRecipe(this.recipes).Twocondition())
+                this.showDropdown()
+                //new searchRecipe(this.recipes).updateDisplay(new searchRecipe(this.recipes).Twocondition())
 
 
             } else {
@@ -261,7 +297,8 @@ export default class dropdown{
                 new tag().displayTag(btnTags[i].ariaLabel, this.nameDropdown)
 
                 new searchRecipe(this.recipes).updateDisplay(new searchRecipe(this.recipes).Twocondition())
-                new searchRecipe(this.recipes).updateDisplay(new searchRecipe(this.recipes).Twocondition())
+                this.showDropdown()
+                //new searchRecipe(this.recipes).updateDisplay(new searchRecipe(this.recipes).Twocondition())
             }
             })  
         }
@@ -273,12 +310,15 @@ export default class dropdown{
     closeTag() {
         const btnTag = document.querySelectorAll(`.tag[data-filter="${this.nameDropdown}"] .tag__button button`)
 
+        const btnDropdown =  document.querySelector(`.dropdown[data-filter="${this.nameDropdown}"] .dropdown__btn`)
+
         for (const btnTa of btnTag) {
             btnTa.addEventListener("click", (e) => {
                 if(e.target.parentNode.parentNode.parentNode){
                 btnTa.parentNode.remove()
                 new searchRecipe(this.recipes).updateDisplay(new searchRecipe(this.recipes).Twocondition())
-                new searchRecipe(this.recipes).updateDisplay(new searchRecipe(this.recipes).Twocondition())
+                this.showDropdown()
+                //new searchRecipe(this.recipes).updateDisplay(new searchRecipe(this.recipes).Twocondition())
             }
             })
         }
@@ -286,9 +326,3 @@ export default class dropdown{
     }
 }
 
-//A regler pourquoi je dois appeler la fonction 2 fois pour bien fonctionner la fermuture et ouverture des dropdown avec la fonction showDropdow: 
-//new searchRecipe(this.recipes).updateDisplay(new searchRecipe(this.recipes).Twocondition()) au fonctions : closeTag et tagDropdown
-//Je pense parce que la fonctionne s'apelle elle meme apres plusieurs a regler la sortie de la fonction bien separer les fonction
-//Ou soit les supprimer dropdown avant de les recreer
-
-//Regler la mise a jour des tags dropdonw pendant la recherche d'un tag 

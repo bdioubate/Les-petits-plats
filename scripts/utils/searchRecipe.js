@@ -210,9 +210,14 @@ export default class searchRecipe{
         new recipeSection(newRecipe).displayRecipe(newRecipe)  
 
         //a completer
-        new dropdown(this.recipes, "ingredients-ingredient").displayTagsDropdown(newRecipe,sentenceSearch)
+        /*new dropdown(this.recipes, "ingredients-ingredient").displayTagsDropdown(newRecipe,sentenceSearch)
         new dropdown(this.recipes, "appliance").displayTagsDropdown(newRecipe, sentenceSearch)
-        new dropdown(this.recipes, "ustensils").displayTagsDropdown(newRecipe, sentenceSearch)
+        new dropdown(this.recipes, "ustensils").displayTagsDropdown(newRecipe, sentenceSearch)*/
+
+        //TEST
+        new dropdown(this.recipes, "ingredients-ingredient").displayDropdown(newRecipe,sentenceSearch)
+        new dropdown(this.recipes, "appliance").displayDropdown(newRecipe, sentenceSearch)
+        new dropdown(this.recipes, "ustensils").displayDropdown(newRecipe, sentenceSearch)
  
         //Nombre de recette 
         const nbRecipe = newRecipe.length
