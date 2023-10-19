@@ -46,7 +46,7 @@ export const displayRecipeCard = (arrayRecipe) => {
             <div class="card-recipe__figure__encart">
                 <p>${newArrayRecipe.time}min</p>
             </div>
-            <img class="card-recipe__figure__img" src="../../assets/recipes/${newArrayRecipe.image}">
+            <img class="card-recipe__figure__img" src="./assets/recipes/${newArrayRecipe.image}">
             <figcaption class="card-recipe__figure__figcaption">
                 <h3>${newArrayRecipe.name}</h3>
             </figcaption>
