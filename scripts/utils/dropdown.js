@@ -8,15 +8,7 @@ const laneTags = (nameDropdown) => {
 
     //creation de l'objetNameType
     const names = []
-
-    /*if(nameDropdown.indexOf('-')) {
-        for (let i = 0; i < nameDropdown.split('-').length; i++) {
-            Object(names).push(nameDropdown.split('-')[i])
-            
-        }
-    } else {
-        names.push(nameDropdown)
-    }*/
+    
     nameDropdown.indexOf('-') ? 
         nameDropdown.split('-').forEach((oneName) => Object(names).push(oneName))
     :
@@ -31,20 +23,6 @@ export const findTags = (nameDropdown,tab = recipes) => {
     let nameProperty
     let namePropertyChild
     let objectParentProperty
-    //chemin des tags
-    /*if(laneTags(nameDropdown).length === 1 ){
-        //nom de la propriete de l'objet
-        const nameProperty = laneTags(nameDropdown)[0]
-
-       tags = typeTags(nameProperty, tab)
-    } else if(laneTags(nameDropdown).length === 2 ){
-        
-        //nom des proprietes de l'objet
-        const nameProperty = laneTags(nameDropdown)[0]
-        const namePropertyChild = laneTags(nameDropdown)[1]
-        const objectParentProperty = typeTags(nameProperty,tab)
-       tags = typeTags(namePropertyChild, objectParentProperty)
-    }*/
 
     laneTags(nameDropdown).length === 1 ?
         (
@@ -78,23 +56,6 @@ export const findTags = (nameDropdown,tab = recipes) => {
 //Dropdown
 const typeTags = (tag, tab = recipes) => {
     const nameTags = []
-
-    /*for (const recipe of tab) {
-        console.log(recipe)
-        //nom de la propriete de l'objet
-        const nameProperty = recipe[`${tag}`]
-        console.log(nameProperty)
-
-            if(typeof nameProperty === "string") {
-                nameTags.includes(nameProperty.toLowerCase()) ? 
-                    null 
-                    :
-                    nameTags.push(nameProperty.toLowerCase())    
-            }else {
-                nameProperty.forEach((tags) => nameTags.includes(tags) ? null : nameTags.push(tags))
-            }
-
-    }*/
 
     tab.forEach((recipe) => {
         //nom de la propriete de l'objet

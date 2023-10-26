@@ -6,10 +6,6 @@
     //dropdown.js
     import { findTags } from "./utils/dropdown.js"
 
-    function myFonction() {
-        console.log("azerty")
-    }
-
 
 // Variable globales du site
 
@@ -24,55 +20,6 @@ const ArrayDropdowns = document.querySelectorAll(".dropdown")
 
 //Array des dropdowns
 const ArrayBtnDropdowns = document.querySelectorAll(".dropdown__btn")
-
-//Array de tous les tags qui sont selectionnés
-const arrayTags = document.querySelectorAll(".tag__button")
-
-const tagContent = document.querySelectorAll(`#tag-content .tag`)
-
-const tagContentSection = document.getElementById(`tag-content`)
-
-const t = document.querySelectorAll(`#tag-content`)
-
-const inputDropdown  = document.querySelectorAll(".dropdown__search")
-
-/*const actionDropdown = () => {
-
-//Array des dropdowns
-const a = document.querySelectorAll(".dropdown__btn")
-    
-//L'utilisateur clique sur un dropdown
-a.forEach((dropdown) => {
-    dropdown.addEventListener("click", (e) => {
-        e.target.dataset.btn ?
-            e.target.dataset.btn !== "true" ?
-                (
-                e.target.parentNode.children[1].style.display = "none",
-                e.target.parentNode.children[2].style.display = "none",
-                e.target.style.borderRadius = "10px",
-                e.target.dataset.btn = "true")
-                    :
-                    (
-                    e.target.parentNode.children[1].style.display = "grid",
-                    e.target.parentNode.children[2].style.display = "grid",
-                    e.target.dataset.btn = "false"
-                    )
-                :
-                e.target.parentNode.dataset.btn !== "true" ?
-                (
-                e.target.parentNode.parentNode.children[1].style.display = "none",
-                e.target.parentNode.parentNode.children[2].style.display = "none",
-                e.target.parentNode.style.borderRadius = "10px",
-                e.target.parentNode.dataset.btn = "true")
-                    :
-                    (
-                    e.target.parentNode.parentNode.children[1].style.display = "grid",
-                    e.target.parentNode.parentNode.children[2].style.display = "grid",
-                    e.target.parentNode.dataset.btn = "false"
-                    )
-    })
-})
-}
 
 /**
  * Fonction globale principale du site
@@ -206,58 +153,6 @@ ArrayBtnDropdowns.forEach((dropdown) => {
                 )
     })
 })
-
-
-/*
-//Boucle sur la liste de tags selectionnés d'un dropdown 
-tagContent.forEach((tagArray) => {
-    console.log(typeof tagArray.children)
-//arrayTags
-Object.values(tagArray.children).forEach((tag) => {
-    const btnCloseTag = tag.children[1]
-    btnCloseTag.addEventListener("click", (e) => {
-        let sentence
-        e.target ?
-        (
-            console.log("zzzzzzzzzzzzzz"),
-            sentence = input.value,
-            e.target.parentNode.parentNode.remove(),
-            init(sentence)
-        )
-        : null
-
-    })
-
-})
-})*/
-
-/*
-const azerty = document.querySelectorAll(".tag")
-const az = []
-
-azerty.forEach((aze) => {
-    aze.children?
-    (az.push(aze.children),
-    console.log(az),
-    //(aze.children[0]).forEach((azer) => console.log(azer))
-    Object.values(aze.children).forEach((azertyu) => {
-        /*azertyu.children?
-        console.log(azertyu.length)/*
-    : 
-        null
-    }),
-    console.log(aze.children?aze.children:null)
-    )
-    : 
-        null
-    /*aze.children[2].addEventListener("click" , (e) => {
-        console.log(e.target)
-    })
-})*/
-
-
-
-
  
 //Declaration de la fonction globales principale du site
 

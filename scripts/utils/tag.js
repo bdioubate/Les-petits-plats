@@ -203,7 +203,3 @@ const arrayTags = document.querySelectorAll(".tag__button")
 
     })
 }
-
-export function myFonction() {
-    console.log("azerty")
-}
