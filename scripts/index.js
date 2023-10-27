@@ -1,6 +1,6 @@
 //Importation de la class principale des recettes
     //recipeSection.js
-    import {displayAllRecipe} from "./templates/recipeSection.js"
+    import { displayAllRecipe, showMessageProhibitedValues } from "./templates/recipeSection.js"
     //tag.js
     import { tagMatchRecipe, displayTag, createTagArray } from "./utils/tag.js"
     //dropdown.js
@@ -20,6 +20,9 @@ const ArrayDropdowns = document.querySelectorAll(".dropdown")
 
 //Array des dropdowns
 const ArrayBtnDropdowns = document.querySelectorAll(".dropdown__btn")
+
+//Valeurs interdite par l'utilisateur
+const prohibitedValues = ["<", ">"]
 
 /**
  * Fonction globale principale du site
@@ -42,6 +45,10 @@ export const init = (sentence = "") => {
 input.addEventListener("keyup", (e) => {
     //La valeur de l'input
     const sentence = e.target.value
+
+    prohibitedValues.some(i => sentence.includes(i))?
+        showMessageProhibitedValues()
+    :
         init(sentence)
 })
 
@@ -49,6 +56,10 @@ input.addEventListener("keyup", (e) => {
 btnInput.addEventListener("click", (e) => {
     const sentence = input.value
 
+    if(prohibitedValues.some(i => sentence.includes(i))){
+        return showMessageProhibitedValues()
+    }
+    
     const {newRecipeArray} = displayAllRecipe(tagMatchRecipe(sentence))
 
     const {arrayTags} = createTagArray()

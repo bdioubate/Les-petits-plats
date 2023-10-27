@@ -38,7 +38,7 @@ export const displayAllRecipe = (ArraySearchRecipe, ArraytagMatchRecipe = recipe
 
     updateNbRecipe(newRecipeArray)
 
-    showMessage(newRecipeArray)
+    showMessageNoRecipe(newRecipeArray)
 
     return {newRecipeArray}
 }
@@ -47,7 +47,7 @@ export const displayAllRecipe = (ArraySearchRecipe, ArraytagMatchRecipe = recipe
 /**RecipeSection
  * @param {object} arrayRecipe
  */
-const showMessage = (arrayRecipe) => {
+const showMessageNoRecipe = (arrayRecipe) => {
     const nbRecipe = arrayRecipe.length
 
     const recipeSection = document.getElementById("recipe_section")
@@ -56,6 +56,7 @@ const showMessage = (arrayRecipe) => {
     divMessage.setAttribute("id","no-recipe")
 
     const h3 = document.createElement("h3")
+     
 
     const input = document.getElementById("search")
 
@@ -71,8 +72,30 @@ const showMessage = (arrayRecipe) => {
         recipeSection.appendChild(divMessage))
     :
         (null)
-        
+}
 
+//Affiche le message quand l'utilisateur entre les valeurs interdites par sécurité risque d'injection
+export const showMessageProhibitedValues = () => {
+
+    const recipeSection = document.getElementById("recipe_section")
+    recipeSection.innerHTML = ``
+
+    const divNbRecipe = document.querySelector("#nb-recipes h2 span")
+    divNbRecipe.innerHTML = ``
+    divNbRecipe.textContent = "0"
+
+    const divMessage = document.createElement("div")
+    divMessage.setAttribute("id","no-recipe")
+
+    const h3 = document.createElement("h3")
+
+    h3.textContent = `
+        Valeurs entrées interdites !
+    `,
+    divMessage.style.display = "block",
+    divMessage.appendChild(h3),
+    recipeSection.appendChild(divMessage)
+    
 }
 
 

@@ -184,8 +184,7 @@ img.card-recipe__figure__img {
   display: flex;
   margin: auto 0px 175px 0px;
   flex-wrap: wrap;
-  justify-content: space-between;
-  row-gap: 65px;
+  gap: 65px 85px;
 }
 
 #recipe_section #no-recipe {
